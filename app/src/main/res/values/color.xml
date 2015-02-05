@@ -7,4 +7,11 @@
     <color name="counter_text_bg">#626262</color>
     <color name="counter_text_color">#c5c4c4</color>
     <color name="background">#fff</color>
+
+    <!-- vehivle list item -->
+    <color name="white">#ffffff</color>
+    <color name="vehicle_bg">#d3d6db</color>
+    <color name="vehicle_item_bg">#ffffff</color>
+    <color name="vehicle_item_border">#c2c3c8</color>
+    <color name="vehicle_button_bg">#10bcc9</color>
 </resources>

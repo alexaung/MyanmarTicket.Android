@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -65,7 +66,8 @@ public class AirportVehicleFragment extends Fragment {
      * Progress spinner to use for table operations
      */
     private ProgressBar mProgressBar;
-    private ListView mVehicleListView;
+    private LinearLayout mVehicleListView;
+    private ListView listViewCar;
 
     public AirportVehicleFragment() {
     }
@@ -99,7 +101,7 @@ public class AirportVehicleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mVehicleListView = (ListView) inflater.inflate(
+        mVehicleListView = (LinearLayout) inflater.inflate(
                 R.layout.fragment_airportvehicle, container, false);
 
         mProgressBar = (ProgressBar) mVehicleListView.findViewById(R.id.loadingProgressBar);
@@ -119,7 +121,7 @@ public class AirportVehicleFragment extends Fragment {
 
             // Create an adapter to bind the items with the view
             mAdapter = new CarAdapter(getActivity(), R.layout.vehicle_list_item);
-            ListView listViewCar = (ListView) mVehicleListView.findViewById(R.id.vehicle_listView);
+            listViewCar = (ListView) mVehicleListView.findViewById(R.id.vehicle_listView);
             listViewCar.setAdapter(mAdapter);
 
             // Load the items from the Mobile Service
@@ -130,7 +132,7 @@ public class AirportVehicleFragment extends Fragment {
         }
 
 
-        mVehicleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewCar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,

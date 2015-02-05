@@ -1,72 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/list_selector"
-    android:orientation="horizontal"
-    android:padding="5dip" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vehicle_bg"
+    android:orientation="vertical" >
 
     <!--  ListRow Left sied Thumbnail image -->
-    <LinearLayout android:id="@+id/thumbnail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="3dip"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/ic_communities"
-        android:layout_marginRight="5dip">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="@dimen/vehicle_item_margin"
+        android:layout_marginRight="@dimen/vehicle_item_margin"
+        android:layout_marginTop="@dimen/vehicle_item_margin"
+        android:background="@drawable/bg_parent_rounded_corner"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/vehicle_item_padding_top_bottom"
+        android:paddingTop="@dimen/vehicle_item_padding_top_bottom" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/vehicle_item_padding_left_right"
+            android:paddingRight="@dimen/vehicle_item_padding_left_right" >
+            <!-- Name of Car-->
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
+                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
+                android:text="Car Name"
+                android:textColor="#040404"
+                android:typeface="sans"
+                android:textSize="20dip"
+                android:textStyle="bold"/>
+
+            <!-- Car Rate -->
+            <TextView
+                android:id="@+id/rates"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/title"
+                android:gravity="right"
+                android:text="0 USD"
+                android:layout_marginRight="5dip"
+                android:textSize="20dip"
+                android:textColor="#10bcc9"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/list_image"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
             android:src="@drawable/ic_communities"/>
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
+            android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
+            android:layout_below="@id/list_image"
+            android:textColor="#343434"
+            android:textSize="15dip"
+            android:layout_marginTop="1dip"
+            android:layout_toRightOf="@+id/thumbnail"
+            android:text="Just gona stand there and ..." />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/vehicle_item_padding_left_right"
+            android:paddingRight="@dimen/vehicle_item_padding_left_right" >
+
+            <TextView
+                android:id="@+id/seating_capacity"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
+                android:paddingRight="2dp"
+                android:layout_below="@id/list_image"
+                android:textColor="#343434"
+                android:textSize="15dip"
+                android:layout_marginTop="1dip"
+                android:layout_toRightOf="@+id/thumbnail"
+                android:gravity="center_vertical|right"
+                android:text="0" />
+
+            <!-- Seating Capacity Image -->
+            <ImageView android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_man"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/no_of_luggage"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
+                android:paddingRight="2dp"
+                android:layout_below="@id/list_image"
+                android:textColor="#343434"
+                android:textSize="15dip"
+                android:layout_marginTop="1dip"
+                android:layout_toRightOf="@+id/thumbnail"
+                android:layout_centerVertical="true"
+                android:text="0" />
+
+            <!-- Seating Capacity Image -->
+            <ImageView android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_luggage"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="@dimen/vehicle_item_margin"
+        android:layout_marginRight="@dimen/vehicle_item_margin"
+        android:background="@drawable/bg_list_button_rounded_corner"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/vehicle_item_padding_top_bottom"
+        android:paddingTop="@dimen/vehicle_item_padding_top_bottom" >
+
+        <TextView
+            android:id="@+id/select"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/list_image"
+            android:textColor="#ffffff"
+            android:textSize="20dip"
+            android:gravity="center"
+            android:text="choose &amp; continue" />
 
     </LinearLayout>
 
-    <!-- Title Of Song-->
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:text="Rihanna Love the way lie"
-        android:textColor="#040404"
-        android:typeface="sans"
-        android:textSize="15dip"
-        android:textStyle="bold"/>
-
-    <!-- Artist Name -->
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:textColor="#343434"
-        android:textSize="10dip"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:text="Just gona stand there and ..." />
-
-    <!-- Rightend Duration -->
-    <TextView
-        android:id="@+id/rates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/title"
-        android:gravity="right"
-        android:text="5:45"
-        android:layout_marginRight="5dip"
-        android:textSize="10dip"
-        android:textColor="#10bcc9"
-        android:textStyle="bold"/>
-
-    <!-- Rightend Arrow -->
-    <ImageView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_drawer"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
-
-</RelativeLayout>
+</LinearLayout>
