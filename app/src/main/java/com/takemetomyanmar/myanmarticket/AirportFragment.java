@@ -5,17 +5,20 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.takemetomyanmar.myanmarticket.adapter.KeyValueArrayAdapter;
+import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Airport;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -162,7 +165,18 @@ public class AirportFragment extends Fragment {
         });
 
 
+        final Button btnNext = (Button) rootView.findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
 
+                // update the main content by replacing fragments
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, AirportVehicleFragment.newInstance(1))
+                        .commit();
+            }
+        });
 
         return rootView;
     }

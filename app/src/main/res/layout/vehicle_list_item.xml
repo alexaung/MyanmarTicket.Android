@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:padding="3dip"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/no-image-available"
+        android:background="@drawable/ic_communities"
         android:layout_marginRight="5dip">
 
         <ImageView
@@ -25,7 +25,7 @@
 
     <!-- Title Of Song-->
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
@@ -38,7 +38,7 @@
 
     <!-- Artist Name -->
     <TextView
-        android:id="@+id/artist"
+        android:id="@+id/description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
@@ -50,7 +50,7 @@
 
     <!-- Rightend Duration -->
     <TextView
-        android:id="@+id/duration"
+        android:id="@+id/rates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
