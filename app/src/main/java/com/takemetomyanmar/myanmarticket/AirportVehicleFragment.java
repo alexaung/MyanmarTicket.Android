@@ -3,6 +3,7 @@ package com.takemetomyanmar.myanmarticket;
 import android.app.AlertDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,7 +138,15 @@ public class AirportVehicleFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
+                final Car car = (Car) parent.getItemAtPosition(position);
+
+                // Perform action on click
+
+                // update the main content by replacing fragments
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, AirportPersonalFragment.newInstance(1))
+                        .commit();
             }
 
         });

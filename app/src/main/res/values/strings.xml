@@ -57,4 +57,17 @@
         <item>@drawable/ic_hiace_commuter_9</item>
         <item>@drawable/ic_alphard</item>
     </array>
+
+    <!-- Airport Names -->
+    <string-array name="title_names">
+        <item >Mr.</item>
+        <item >Ms.</item>
+    </string-array>
+
+    <!-- Airport Codes -->
+    <string-array name="title_codes">
+        <item >Mr</item>
+        <item >Ms</item>
+    </string-array>
+
 </resources>

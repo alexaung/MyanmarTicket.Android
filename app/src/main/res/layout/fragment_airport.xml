@@ -2,92 +2,103 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background">
+    android:background="@color/vehicle_bg">
     <!-- everything you already have -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:id="@+id/fragment_airport"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@drawable/background"
-    android:orientation="vertical"
-    tools:context=".AirportFragment">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/vehicle_bg"
+        android:orientation="vertical" >
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/airport"
-        style="@style/spinner_style" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="@dimen/vehicle_item_margin"
+            android:layout_marginRight="@dimen/vehicle_item_margin"
+            android:layout_marginTop="@dimen/vehicle_item_margin"
+            android:background="@drawable/bg_parent_rounded_corner"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/vehicle_item_padding_top_bottom"
+            android:paddingTop="@dimen/vehicle_item_padding_top_bottom"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPostalAddress"
-        android:ems="10"
-        android:id="@+id/destination"
-        android:layout_below="@+id/spinner"
-        style="@style/edit_text_style"
-        android:hint="Drop-off Address"/>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/airport"
+                    style="@style/spinner_style" />
 
-    <LinearLayout android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="0dp"
-        android:orientation="horizontal">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPostalAddress"
+                    android:ems="10"
+                    android:id="@+id/destination"
+                    android:layout_below="@+id/spinner"
+                    style="@style/edit_text_style"
+                    android:hint="Drop-off Address"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/pickup_date"
-        android:layout_below="@+id/destination"
-        style="@style/edit_text_style"
-        android:hint="Pickup Date"/>
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="0dp"
+                    android:orientation="horizontal">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="time"
-        android:ems="10"
-        android:id="@+id/pickup_time"
-        android:layout_below="@+id/pickup_date"
-        style="@style/edit_text_style"
-        android:hint="Time"/>
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:ems="10"
+                    android:id="@+id/pickup_date"
+                    android:layout_below="@+id/destination"
+                    style="@style/edit_text_style"
+                    android:hint="Pickup Date"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="time"
+                    android:ems="10"
+                    android:id="@+id/pickup_time"
+                    android:layout_below="@+id/pickup_date"
+                    style="@style/edit_text_style"
+                    android:hint="Time"/>
+
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/no_of_passengers"
+                    android:layout_below="@+id/pickup_time"
+                    style="@style/edit_text_style"
+                    android:hint="No. of Passengers "/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/no_of_luggage"
+                    android:layout_below="@+id/spinner"
+                    style="@style/edit_text_style"
+                    android:hint="No. of Luggages"/>
+
+                <Button
+                    android:id="@+id/btnNext"
+                    android:text="Next, Select Vehicle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/button_style"
+
+                    />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/no_of_passengers"
-        android:layout_below="@+id/pickup_time"
-        style="@style/edit_text_style"
-        android:hint="No. of Passengers "/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/no_of_luggage"
-        android:layout_below="@+id/spinner"
-        style="@style/edit_text_style"
-        android:hint="No. of Luggages"/>
-
-    <Button
-        android:id="@+id/btnNext"
-        android:text="Next, Select Vehicle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/button_style"
-
-        />
-
-</LinearLayout>
 </ScrollView>
