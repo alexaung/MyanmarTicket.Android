@@ -1,9 +1,12 @@
 package com.takemetomyanmar.myanmarticket;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ import com.microsoft.windowsazure.mobileservices.ServiceFilterResponseCallback;
 import com.microsoft.windowsazure.mobileservices.TableQueryCallback;
 import com.takemetomyanmar.myanmarticket.adapter.CarAdapter;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Car;
+import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Transfer;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -36,6 +40,10 @@ public class AirportVehicleFragment extends Fragment {
      * fragment.
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
+
+    private static final String ARG_TRANSFER_OBJECT = "Transfer";
+
+    private static final String FRAGMENT_TITLE = "Airport Transfer";
     /**
      * Mobile Service URL.
      */
@@ -73,10 +81,11 @@ public class AirportVehicleFragment extends Fragment {
     public AirportVehicleFragment() {
     }
 
-    public static AirportVehicleFragment newInstance(int sectionNumber) {
+    public static AirportVehicleFragment newInstance(int sectionNumber, Transfer transfer) {
         AirportVehicleFragment fragment = new AirportVehicleFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putParcelable(ARG_TRANSFER_OBJECT, transfer);
         fragment.setArguments(args);
         return fragment;
     }
@@ -101,6 +110,7 @@ public class AirportVehicleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
         mVehicleListView = (LinearLayout) inflater.inflate(
                 R.layout.fragment_airportvehicle, container, false);
@@ -141,17 +151,26 @@ public class AirportVehicleFragment extends Fragment {
                 final Car car = (Car) parent.getItemAtPosition(position);
 
                 // Perform action on click
-
+                Transfer transfer = getArguments().getParcelable("Transfer");
+                transfer.setCar(car);
                 // update the main content by replacing fragments
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, AirportPersonalFragment.newInstance(1))
+                        .replace(R.id.container, AirportPersonalFragment.newInstance(2, transfer))
+                        .addToBackStack("AirportPersonalFragment")
                         .commit();
             }
 
         });
 
         return mVehicleListView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((MainActivity) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
     /**

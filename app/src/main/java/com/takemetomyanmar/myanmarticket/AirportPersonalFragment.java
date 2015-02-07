@@ -1,16 +1,21 @@
 package com.takemetomyanmar.myanmarticket;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.takemetomyanmar.myanmarticket.adapter.KeyValueArrayAdapter;
+import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Transfer;
 
 /**
  * Created by AMO on 2/6/2015.
@@ -27,16 +32,42 @@ public class AirportPersonalFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
 
+    private static final String ARG_TRANSFER_OBJECT = "Transfer";
+    /**
+     * Remember the position of the selected item.
+     */
+    private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
+
+    private int mCurrentSelectedPosition = 0;
+    private boolean mFromSavedInstanceState;
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static AirportPersonalFragment newInstance(int sectionNumber) {
+    public static AirportPersonalFragment newInstance(int sectionNumber, Transfer transfer) {
         AirportPersonalFragment fragment = new AirportPersonalFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putParcelable(ARG_TRANSFER_OBJECT, transfer);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+            mFromSavedInstanceState = true;
+        }
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Indicate that this fragment would like to influence the set of actions in the action bar.
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -75,6 +106,24 @@ public class AirportPersonalFragment extends Fragment {
             }
 
         });
+
+        final Button btnNext = (Button) rootView.findViewById(R.id.btnNext);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+
+                // update the main content by replacing fragments
+                FragmentManager fragmentManager = getFragmentManager();
+                Bundle bundle = new Bundle();
+                Transfer transfer = new Transfer();
+                bundle.putParcelable("Transfer", transfer);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, AirportDetailsFragment.newInstance(2, transfer))
+                        .addToBackStack("AirportDetailsFragment")
+                        .commit();
+            }
+        });
+
         return rootView;
     }
 

@@ -19,9 +19,12 @@ import android.widget.TimePicker;
 
 import com.takemetomyanmar.myanmarticket.adapter.KeyValueArrayAdapter;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Airport;
+import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Transfer;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -32,12 +35,15 @@ public class AirportFragment extends Fragment {
     public Calendar myCalendar;
     public Spinner airport;
     public EditText destination;
+    public EditText txtFlightNo;
     public EditText pickup_date;
     public EditText pickup_time;
     public EditText no_of_passengers;
     public EditText no_of_luggage;
     public DatePickerDialog.OnDateSetListener dateSetListener;
     public TimePickerDialog.OnTimeSetListener timeSetListener;
+
+    public String airportCode;
 
     public AirportFragment(){}
     /**
@@ -65,6 +71,8 @@ public class AirportFragment extends Fragment {
 
         airport = (Spinner) rootView.findViewById(R.id.airport);
         destination = (EditText) rootView.findViewById(R.id.destination);
+        txtFlightNo = (EditText) rootView.findViewById(R.id.flightNo);
+
         pickup_date = (EditText) rootView.findViewById(R.id.pickup_date);
         pickup_time = (EditText) rootView.findViewById(R.id.pickup_time);
         no_of_passengers = (EditText) rootView.findViewById(R.id.no_of_passengers);
@@ -96,7 +104,7 @@ public class AirportFragment extends Fragment {
                                        final int position, final long id) {
 
                 KeyValueArrayAdapter adapter = (KeyValueArrayAdapter) parent.getAdapter();
-
+                airportCode = adapter.getEntryValue(position);
                 //Ln.d("Entry=" + adapter.getEntry(position));
                 //Ln.d("EntryValue=" + adapter.getEntryValue(position));
             }
@@ -172,13 +180,41 @@ public class AirportFragment extends Fragment {
 
                 // update the main content by replacing fragments
                 FragmentManager fragmentManager = getFragmentManager();
+                Bundle bundle = new Bundle();
+                Transfer transfer = getTransfer();
+                bundle.putParcelable("Transfer", transfer);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, AirportVehicleFragment.newInstance(1))
+                        .replace(R.id.container, AirportVehicleFragment.newInstance(2, transfer))
+                        .addToBackStack("AirportVehicleFragment")
                         .commit();
             }
         });
 
         return rootView;
+    }
+
+    private Transfer getTransfer(){
+
+        String from = airportCode;
+        String to = destination.getText().toString();
+        String flightNo = txtFlightNo.getText().toString();
+        Calendar cal = Calendar.getInstance();
+
+        String dateString = pickup_date.getText() + " " + pickup_time.getText();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        Date convertedDate = new Date();
+        try {
+            convertedDate = dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        int noOfPassenger = Integer.parseInt( no_of_passengers.getText().toString() );
+        int noOfLuggage = Integer.parseInt(no_of_luggage.getText().toString());
+
+        Transfer transfer = new Transfer(null, "Arrival", null, flightNo, from, to, noOfPassenger, noOfLuggage, convertedDate, null);
+        return transfer;
     }
 
     private void updateDateLabel() {

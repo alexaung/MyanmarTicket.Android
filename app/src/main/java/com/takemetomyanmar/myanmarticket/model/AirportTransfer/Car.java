@@ -1,9 +1,11 @@
 package com.takemetomyanmar.myanmarticket.model.AirportTransfer;
 
+import java.io.Serializable;
+
 /**
  * Created by AMO on 2/5/2015.
  */
-public class Car {
+public class Car  implements Serializable {
     private String id;
     private String name;
     private String description;

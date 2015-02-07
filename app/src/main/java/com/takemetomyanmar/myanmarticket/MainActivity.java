@@ -1,6 +1,7 @@
 package com.takemetomyanmar.myanmarticket;
 
 import android.app.Activity;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -35,7 +36,9 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_main);
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -60,6 +63,7 @@ public class MainActivity extends ActionBarActivity
             case 1:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, AirportFragment.newInstance(position + 1))
+                        .addToBackStack("AirportFragment")
                         .commit();
                 break;
         }
@@ -84,8 +88,8 @@ public class MainActivity extends ActionBarActivity
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(mTitle);
     }
 
@@ -114,6 +118,7 @@ public class MainActivity extends ActionBarActivity
         if (id == R.id.action_settings) {
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
