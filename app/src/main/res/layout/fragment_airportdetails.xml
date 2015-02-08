@@ -60,11 +60,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pick-up : "
+                    android:layout_weight="1"
                     style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtPickUp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="9"
                     style="@style/text_style" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -78,11 +80,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Flight No. : "
+                    android:layout_weight="1"
                     style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtFlightNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="9"
                     style="@style/text_style" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -95,12 +99,14 @@
                     android:id="@+id/lblRoute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Service : "
+                    android:text="Route : "
+                    android:layout_weight="1"
                     style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtRoute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="9"
                     style="@style/text_style" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -310,11 +316,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email : "
+                    android:layout_weight="1"
                     style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="9"
                     style="@style/text_style" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -328,11 +336,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mobile No. : "
+                    android:layout_weight="1"
                     style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtMobilePhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="9"
                     style="@style/text_style" />
             </LinearLayout>
 
@@ -386,11 +396,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email : "
+                    android:layout_weight="1"
                     style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtLeadEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="9"
                     style="@style/text_style" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -404,6 +416,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mobile No. : "
+                    android:layout_weight="1"
                     style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtLeadMobilePhone"
@@ -417,6 +430,7 @@
                 android:text="Next, Payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="9"
                 style="@style/button_style" />
 
         </LinearLayout>

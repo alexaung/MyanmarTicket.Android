@@ -65,7 +65,7 @@ public class AirportPersonalFragment extends Fragment {
         AirportPersonalFragment fragment = new AirportPersonalFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        args.putParcelable(ARG_TRANSFER_OBJECT, transfer);
+        args.putSerializable(ARG_TRANSFER_OBJECT, transfer);
         fragment.setArguments(args);
         return fragment;
     }
@@ -179,22 +179,11 @@ public class AirportPersonalFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-                Transfer transfer = getArguments().getParcelable("Transfer");
-                Personal account = getAccountDetail();
-                Personal leadPassenger = getLeadPassengerDetail();
 
-                Booking booking = new Booking();
-                booking.setTransfer(transfer);
-                booking.setBookBy(account);
-                booking.setLeadPassenger(leadPassenger);
                 // update the main content by replacing fragment
                 FragmentManager fragmentManager = getFragmentManager();
-                Bundle bundle = new Bundle();
-
-
-                bundle.putParcelable("Transfer", transfer);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, AirportDetailsFragment.newInstance(2, booking))
+                        .replace(R.id.container, AirportDetailsFragment.newInstance(2, getBooking()))
                         .addToBackStack("AirportDetailsFragment")
                         .commit();
             }
@@ -221,6 +210,24 @@ public class AirportPersonalFragment extends Fragment {
                 txtPMobilePhone.getText().toString());
 
         return leadPassengerDetail;
+    }
+
+    private Booking getBooking(){
+        Transfer transfer = (Transfer) getArguments().getSerializable(ARG_TRANSFER_OBJECT);
+        Personal account = getAccountDetail();
+        Personal leadPassenger;
+        if(chkLeadPassenger.isChecked())
+            leadPassenger = account;
+        else
+            leadPassenger = getLeadPassengerDetail();
+
+        Booking booking = new Booking();
+        booking.setTransfer(transfer);
+        booking.setBookBy(account);
+        booking.setLeadPassenger(leadPassenger);
+
+        return booking;
+
     }
 
     @Override

@@ -182,7 +182,7 @@ public class AirportFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 Bundle bundle = new Bundle();
                 Transfer transfer = getTransfer();
-                bundle.putParcelable("Transfer", transfer);
+
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, AirportVehicleFragment.newInstance(2, transfer))
                         .addToBackStack("AirportVehicleFragment")

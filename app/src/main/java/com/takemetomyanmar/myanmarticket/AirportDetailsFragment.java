@@ -21,6 +21,7 @@ import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
+import com.takemetomyanmar.myanmarticket.adapter.KeyValueArrayAdapter;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Booking;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Car;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Personal;
@@ -29,6 +30,8 @@ import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Transfer;
 import org.json.JSONException;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 /**
  * Created by AlexAung on 2/7/2015.
@@ -147,11 +150,18 @@ public class AirportDetailsFragment extends Fragment {
         Personal account = booking.getBookBy();
         Personal leadPassenger = booking.getLeadPassenger();
 
+        String[] airportCodes = getResources().getStringArray(R.array.airport_codes);
+        String[] airportName = getResources().getStringArray(R.array.airport_names);
+
+        int position = Arrays.asList(airportCodes).indexOf(transfer.getFrom());
 
         txtService.setText(transfer.getService());
-        txtPickUp.setText(transfer.getPickUp());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+
+        txtPickUp.setText(dateFormat.format(transfer.getDate()));
         txtFlightNo.setText(transfer.getFlightNo());
-        txtRoute.setText(transfer.getFrom() + " --> " + transfer.getTo());
+        txtRoute.setText(airportName[position].toString() + " --> " + transfer.getTo());
         txtNoOfPassengers.setText(String.valueOf(transfer.getNoOfPassenger()));
         txtNoOfLuggage.setText(String.valueOf(transfer.getNoOfLuggage()));
 

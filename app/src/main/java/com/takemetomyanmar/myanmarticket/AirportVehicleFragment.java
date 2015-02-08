@@ -85,7 +85,7 @@ public class AirportVehicleFragment extends Fragment {
         AirportVehicleFragment fragment = new AirportVehicleFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        args.putParcelable(ARG_TRANSFER_OBJECT, transfer);
+        args.putSerializable(ARG_TRANSFER_OBJECT, transfer);
         fragment.setArguments(args);
         return fragment;
     }
@@ -151,7 +151,7 @@ public class AirportVehicleFragment extends Fragment {
                 final Car car = (Car) parent.getItemAtPosition(position);
 
                 // Perform action on click
-                Transfer transfer = getArguments().getParcelable(ARG_TRANSFER_OBJECT);
+                Transfer transfer = (Transfer) getArguments().getSerializable(ARG_TRANSFER_OBJECT);
                 transfer.setCar(car);
                 // update the main content by replacing fragments
                 FragmentManager fragmentManager = getFragmentManager();

@@ -3,12 +3,13 @@ package com.takemetomyanmar.myanmarticket.model.AirportTransfer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by AlexAung on 2/7/2015.
  */
-public class Transfer implements Parcelable{
+public class Transfer implements Serializable{
     private String id;
     private String service;
     private String pickUp;
@@ -111,47 +112,47 @@ public class Transfer implements Parcelable{
         this.car = car;
     }
 
-    @Override
-    public int describeContents() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(service);
-        dest.writeString(pickUp);
-        dest.writeString(flightNo);
-        dest.writeString(from);
-        dest.writeString(to);
-        dest.writeInt(noOfPassenger);
-        dest.writeInt(noOfLuggage);
-        dest.writeSerializable(date);
-        dest.writeSerializable(car);
-    }
-
-    private Transfer(Parcel in){
-        this.service = in.readString();
-        this.pickUp = in.readString();
-        this.flightNo = in.readString();
-        this.from = in.readString();
-        this.to = in.readString();
-        this.noOfPassenger = in.readInt();
-        this.noOfLuggage = in.readInt();
-        this.date = (Date) in.readSerializable();
-        this.car = (Car) in.readSerializable();
-    }
-
-    public static final Parcelable.Creator<Transfer> CREATOR = new Parcelable.Creator<Transfer>() {
-
-        @Override
-        public Transfer createFromParcel(Parcel source) {
-            return new Transfer(source);
-        }
-
-        @Override
-        public Transfer[] newArray(int size) {
-            return new Transfer[size];
-        }
-    };
+//    @Override
+//    public int describeContents() {
+//        // TODO Auto-generated method stub
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(service);
+//        dest.writeString(pickUp);
+//        dest.writeString(flightNo);
+//        dest.writeString(from);
+//        dest.writeString(to);
+//        dest.writeInt(noOfPassenger);
+//        dest.writeInt(noOfLuggage);
+//        dest.writeSerializable(date);
+//        dest.writeSerializable(car);
+//    }
+//
+//    private Transfer(Parcel in){
+//        this.service = in.readString();
+//        this.pickUp = in.readString();
+//        this.flightNo = in.readString();
+//        this.from = in.readString();
+//        this.to = in.readString();
+//        this.noOfPassenger = in.readInt();
+//        this.noOfLuggage = in.readInt();
+//        this.date = (Date) in.readSerializable();
+//        this.car = (Car) in.readSerializable();
+//    }
+//
+//    public static final Parcelable.Creator<Transfer> CREATOR = new Parcelable.Creator<Transfer>() {
+//
+//        @Override
+//        public Transfer createFromParcel(Parcel source) {
+//            return new Transfer(source);
+//        }
+//
+//        @Override
+//        public Transfer[] newArray(int size) {
+//            return new Transfer[size];
+//        }
+//    };
 }
