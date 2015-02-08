@@ -14,28 +14,14 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="@dimen/vehicle_item_margin"
-            android:layout_marginRight="@dimen/vehicle_item_margin"
-            android:layout_marginTop="@dimen/vehicle_item_margin"
-            android:background="@drawable/bg_parent_rounded_corner"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/vehicle_item_padding_top_bottom"
-            android:paddingTop="@dimen/vehicle_item_padding_top_bottom"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp">
+            style="@style/inner_layout_style">
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:text="Contact Details"
-                android:textColor="#040404"
-                android:typeface="sans"
-                android:textSize="15dip"
-                android:textStyle="bold"/>
+                android:text="@string/contact_details"
+                style="@style/title_style"/>
 
             <View
                 android:layout_width="fill_parent"
@@ -63,6 +49,7 @@
                     android:hint="First Name"
                     android:ems="10"
                     android:id="@+id/txtFirstName"
+                    android:layout_marginRight="2dp"
                     style="@style/edit_text_style"
                     android:layout_weight="1"/>
 
@@ -73,6 +60,7 @@
                     android:hint="Last Name"
                     android:ems="10"
                     android:id="@+id/txtLastName"
+                    android:layout_marginLeft="2dp"
                     style="@style/edit_text_style"
                     android:layout_weight="1"/>
 
@@ -102,9 +90,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
                 android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:text="Please note your booking details will be sent to this email id and mobile"
+                android:text="@string/contact_note"
                 android:textColor="#040404"
                 android:typeface="sans"
                 android:textSize="10dip"
@@ -115,33 +102,32 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="@dimen/vehicle_item_margin"
-            android:layout_marginRight="@dimen/vehicle_item_margin"
-            android:layout_marginTop="@dimen/vehicle_item_margin"
-            android:background="@drawable/bg_parent_rounded_corner"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/vehicle_item_padding_top_bottom"
-            android:paddingTop="@dimen/vehicle_item_padding_top_bottom"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp">
+            style="@style/inner_layout_style">
 
             <TextView
                 android:id="@+id/pname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:text="Lead Passenger Details"
-                android:textColor="#040404"
-                android:typeface="sans"
-                android:textSize="15dip"
-                android:textStyle="bold"/>
+                android:text="@string/lead_passenger_details"
+                style="@style/title_style"/>
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/same_as_contact"
+                android:checked="true"
+                android:id="@+id/checkBox" />
+
+            <LinearLayout
+                android:id="@+id/leadPassengerGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
 
             <Spinner
                 android:layout_width="match_parent"
@@ -197,9 +183,11 @@
                 android:hint="Email"
                 style="@style/edit_text_style" />
 
+            </LinearLayout>
+
             <Button
                 android:id="@+id/btnNext"
-                android:text="Next, Payment"
+                android:text="Next, Confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/button_style" />

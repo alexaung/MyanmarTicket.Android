@@ -151,7 +151,7 @@ public class AirportVehicleFragment extends Fragment {
                 final Car car = (Car) parent.getItemAtPosition(position);
 
                 // Perform action on click
-                Transfer transfer = getArguments().getParcelable("Transfer");
+                Transfer transfer = getArguments().getParcelable(ARG_TRANSFER_OBJECT);
                 transfer.setCar(car);
                 // update the main content by replacing fragments
                 FragmentManager fragmentManager = getFragmentManager();

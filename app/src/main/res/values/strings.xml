@@ -11,6 +11,11 @@
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
     <string name="mobile_services">Mobile Services </string>
+
+    <string name="contact_details">Account Details</string>
+    <string name="lead_passenger_details">Lead Passenger Details</string>
+    <string name="contact_note">Please note your booking details will be sent to this email id and mobile.</string>
+    <string name="same_as_contact">The same as account details</string>
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item >Home</item>

@@ -9,13 +9,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="@dimen/vehicle_item_margin"
-        android:layout_marginRight="@dimen/vehicle_item_margin"
-        android:layout_marginTop="@dimen/vehicle_item_margin"
-        android:background="@drawable/bg_parent_rounded_corner"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/vehicle_item_padding_top_bottom"
-        android:paddingTop="@dimen/vehicle_item_padding_top_bottom" >
+        style="@style/inner_layout_style" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -28,14 +22,7 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:text="Car Name"
-                android:textColor="#040404"
-                android:typeface="sans"
-                android:textSize="20dip"
-                android:textStyle="bold"/>
+                style="@style/title_style"/>
 
             <!-- Car Rate -->
             <TextView

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -9,34 +8,21 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:paddingBottom="10dp"
         android:background="@color/vehicle_bg"
         android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="@dimen/vehicle_item_margin"
-            android:layout_marginRight="@dimen/vehicle_item_margin"
-            android:layout_marginTop="@dimen/vehicle_item_margin"
-            android:background="@drawable/bg_parent_rounded_corner"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/vehicle_item_padding_top_bottom"
-            android:paddingTop="@dimen/vehicle_item_padding_top_bottom"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp">
+            style="@style/inner_layout_style">
 
             <TextView
                 android:id="@+id/transferTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
                 android:text="Transfer"
-                android:textColor="#040404"
-                android:typeface="sans"
-                android:textSize="17dip"
-                android:textStyle="bold"/>
+                style="@style/title_style"/>
 
             <View
                 android:layout_width="fill_parent"
@@ -53,25 +39,15 @@
                     android:id="@+id/lblService"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                    android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
                     android:text="Service : "
-                    android:textColor="#040404"
-                    android:typeface="sans"
-                    android:textSize="15dip"
-                    android:textStyle="bold"/>
+                    android:layout_weight="1"
+                    style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtService"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                    android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                    android:text="Arrival"
-                    android:textColor="#040404"
-                    android:typeface="sans"
-                    android:textSize="15dip" />
+                    android:layout_weight="9"
+                    style="@style/text_style" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
@@ -83,25 +59,13 @@
                     android:id="@+id/lblPickUp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                    android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
                     android:text="Pick-up : "
-                    android:textColor="#040404"
-                    android:typeface="sans"
-                    android:textSize="15dip"
-                    android:textStyle="bold"/>
+                    style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtPickUp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                    android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                    android:text="14 Feb 2015 19:00"
-                    android:textColor="#040404"
-                    android:typeface="sans"
-                    android:textSize="15dip" />
+                    style="@style/text_style" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
@@ -113,25 +77,13 @@
                     android:id="@+id/lblFlightNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                    android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
                     android:text="Flight No. : "
-                    android:textColor="#040404"
-                    android:typeface="sans"
-                    android:textSize="15dip"
-                    android:textStyle="bold"/>
+                    style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtFlightNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                    android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                    android:text="14 Feb 2015 19:00"
-                    android:textColor="#040404"
-                    android:typeface="sans"
-                    android:textSize="15dip" />
+                    style="@style/text_style" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
@@ -143,25 +95,13 @@
                     android:id="@+id/lblRoute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                    android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
                     android:text="Service : "
-                    android:textColor="#040404"
-                    android:typeface="sans"
-                    android:textSize="15dip"
-                    android:textStyle="bold"/>
+                    style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtRoute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                    android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                    android:text="Changi Airport --> Serangoon Road Singapore "
-                    android:textColor="#040404"
-                    android:typeface="sans"
-                    android:textSize="15dip" />
+                    style="@style/text_style" />
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
@@ -175,11 +115,9 @@
                     android:layout_height="40dp"
                     android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
                     android:paddingRight="2dp"
-                    android:layout_below="@id/list_image"
                     android:textColor="#343434"
                     android:textSize="15dip"
                     android:layout_marginTop="1dip"
-                    android:layout_toRightOf="@+id/thumbnail"
                     android:gravity="center_vertical|right"
                     android:text="0" />
 
@@ -196,7 +134,6 @@
                     android:layout_height="40dp"
                     android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
                     android:paddingRight="2dp"
-                    android:layout_below="@id/list_image"
                     android:textColor="#343434"
                     android:textSize="15dip"
                     android:layout_marginTop="1dip"
@@ -217,28 +154,14 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="@dimen/vehicle_item_margin"
-            android:layout_marginRight="@dimen/vehicle_item_margin"
-            android:layout_marginTop="@dimen/vehicle_item_margin"
-            android:background="@drawable/bg_parent_rounded_corner"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/vehicle_item_padding_top_bottom"
-            android:paddingTop="@dimen/vehicle_item_padding_top_bottom"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp">
+            style="@style/inner_layout_style">
 
             <TextView
                 android:id="@+id/carTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
                 android:text="Vehicle"
-                android:textColor="#040404"
-                android:typeface="sans"
-                android:textSize="15dip"
-                android:textStyle="bold"/>
+                style="@style/title_style" />
 
             <View
                 android:layout_width="fill_parent"
@@ -253,21 +176,14 @@
                 android:paddingRight="@dimen/vehicle_item_padding_left_right" >
                 <!-- Name of Car-->
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/txtCarName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                    android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                    android:text="Car Name"
-                    android:textColor="#040404"
-                    android:typeface="sans"
-                    android:textSize="20dip"
-                    android:textStyle="bold"/>
+                    style="@style/title_style"/>
 
                 <!-- Car Rate -->
                 <TextView
-                    android:id="@+id/rates"
+                    android:id="@+id/txtCarRates"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -282,25 +198,17 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/list_image"
+                android:id="@+id/imgCarImage"
                 android:layout_width="fill_parent"
                 android:layout_height="200dp"
                 android:src="@drawable/ic_communities"/>
 
             <!-- Description -->
             <TextView
-                android:id="@+id/description"
+                android:id="@+id/txtCarDescription"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:layout_below="@id/list_image"
-                android:textColor="#343434"
-                android:textSize="15dip"
-                android:layout_marginTop="1dip"
-                android:layout_toRightOf="@+id/thumbnail"
-                android:text="Just gona stand there and ..." />
+                style="@style/text_style" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -310,12 +218,11 @@
                 android:paddingRight="@dimen/vehicle_item_padding_left_right" >
 
                 <TextView
-                    android:id="@+id/seating_capacity"
+                    android:id="@+id/txtSeatingCapacity"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
                     android:paddingRight="2dp"
-                    android:layout_below="@id/list_image"
                     android:textColor="#343434"
                     android:textSize="15dip"
                     android:layout_marginTop="1dip"
@@ -331,12 +238,11 @@
                     android:layout_centerVertical="true"/>
 
                 <TextView
-                    android:id="@+id/no_of_luggage"
+                    android:id="@+id/txtCarNoOfLuggage"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
                     android:paddingRight="2dp"
-                    android:layout_below="@id/list_image"
                     android:textColor="#343434"
                     android:textSize="15dip"
                     android:layout_marginTop="1dip"
@@ -355,6 +261,167 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            style="@style/inner_layout_style">
+
+            <TextView
+                android:id="@+id/accountTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Details"
+                style="@style/title_style"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
+                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
+                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/lblContactName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name : "
+                    android:layout_weight="1"
+                    style="@style/label_style"/>
+                <TextView
+                    android:id="@+id/txtContactName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    style="@style/text_style" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
+                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
+                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/lblEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email : "
+                    style="@style/label_style"/>
+                <TextView
+                    android:id="@+id/txtEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text_style" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
+                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
+                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/lblMobilePhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mobile No. : "
+                    style="@style/label_style"/>
+                <TextView
+                    android:id="@+id/txtMobilePhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text_style" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            style="@style/inner_layout_style">
+
+            <TextView
+                android:id="@+id/leadTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lead Passenger Details"
+                style="@style/title_style"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
+                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
+                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/lblLeadName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name : "
+                    android:layout_weight="1"
+                    style="@style/label_style"/>
+                <TextView
+                    android:id="@+id/txtLeadName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    style="@style/text_style" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
+                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
+                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/lblLeadEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email : "
+                    style="@style/label_style"/>
+                <TextView
+                    android:id="@+id/txtLeadEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text_style" />
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
+                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
+                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/lblLeadMobilePhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mobile No. : "
+                    style="@style/label_style"/>
+                <TextView
+                    android:id="@+id/txtLeadMobilePhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/text_style" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnNext"
+                android:text="Next, Payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/button_style" />
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 

@@ -7,6 +7,8 @@
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="navigation_drawer_width">240dp</dimen>
 
+    <dimen name="inner_layout_margin">10dp</dimen>
+
     <!-- Vehicle List Screen margins -->
     <dimen name="vehicle_item_margin">10dp</dimen>
     <dimen name="vehicle_item_padding_top_bottom">10dp</dimen>
