@@ -1,6 +1,10 @@
 package com.takemetomyanmar.myanmarticket.model.AirportTransfer;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -10,11 +14,13 @@ public class Booking implements Serializable{
 
     private String id;
     private String code;
-    private Date bookingDate;
+    private String bookingDate;
+    private String paymentId;
+    private String paymentState;
 
     private Personal bookBy;
     private Personal leadPassenger;
-    private Transfer transfer;
+    private ArrayList<Transfer> transfers;
 
     public Booking() {};
 
@@ -24,11 +30,33 @@ public class Booking implements Serializable{
 
     public String getCode() {return this.code; }
 
+    public void setCode(String code){ this.code = code; }
+
     public Date getBookingDate(){
-        return this.bookingDate;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        Date convertedDate = new Date();
+        try {
+            convertedDate = dateFormat.parse(this.bookingDate);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return convertedDate;
+
     }
 
-    public void setBookingDate(Date bookingDate){ this.bookingDate = bookingDate; }
+    public void setBookingDate(Date bookingDate){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        this.bookingDate = dateFormat.format(bookingDate);
+    }
+
+    public String getPaymentId() { return this.paymentId; }
+
+    public void setPaymentId(String paymentId) { this.paymentId = paymentId; }
+
+    public String getPaymentState() { return this.paymentState; }
+
+    public void setPaymentState(String paymentState) { this.paymentState = paymentState; }
 
     public Personal getBookBy(){
         return this.bookBy;
@@ -46,12 +74,12 @@ public class Booking implements Serializable{
         this.leadPassenger = leadPassenger;
     }
 
-    public Transfer getTransfer(){
-        return this.transfer;
+    public ArrayList<Transfer> getTransfers(){
+        return this.transfers;
     }
 
-    public void setTransfer(Transfer transfer){
-        this.transfer = transfer;
+    public void setTransfers(ArrayList<Transfer> transfers){
+        this.transfers = transfers;
     }
 
 }

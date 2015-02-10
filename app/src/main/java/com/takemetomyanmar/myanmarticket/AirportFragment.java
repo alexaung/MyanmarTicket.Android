@@ -6,7 +6,9 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.takemetomyanmar.myanmarticket.Util.Validation;
 import com.takemetomyanmar.myanmarticket.adapter.KeyValueArrayAdapter;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Airport;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Transfer;
@@ -69,6 +73,15 @@ public class AirportFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_airport, container, false);
 
+        registerViews(rootView);
+
+        setControlValidator();
+
+        return rootView;
+    }
+
+    private void registerViews(View rootView) {
+
         airport = (Spinner) rootView.findViewById(R.id.airport);
         destination = (EditText) rootView.findViewById(R.id.destination);
         txtFlightNo = (EditText) rootView.findViewById(R.id.flightNo);
@@ -93,7 +106,7 @@ public class AirportFragment extends Fragment {
         KeyValueArrayAdapter adapter = new KeyValueArrayAdapter(getActivity(),android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter.setKeyValue(getResources().getStringArray(R.array.airport_codes),
-                            getResources().getStringArray(R.array.airport_names));
+                getResources().getStringArray(R.array.airport_names));
 
         airport.setAdapter(adapter);
 
@@ -177,20 +190,95 @@ public class AirportFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
+                /*
+                Validation class will check the error and display the error on respective fields
+                but it won't resist the form submission, so we need to check again before submit
+                 */
+                if ( checkValidation () )
+                    submitForm();
+                else
+                    Toast.makeText(getActivity(), "Form contains error", Toast.LENGTH_LONG).show();
 
-                // update the main content by replacing fragments
-                FragmentManager fragmentManager = getFragmentManager();
-                Bundle bundle = new Bundle();
-                Transfer transfer = getTransfer();
 
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, AirportVehicleFragment.newInstance(2, transfer))
-                        .addToBackStack("AirportVehicleFragment")
-                        .commit();
             }
         });
 
-        return rootView;
+
+    }
+
+    private void setControlValidator(){
+        // TextWatcher would let us check validation error on the fly
+        destination.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(destination);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        txtFlightNo.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(txtFlightNo);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        pickup_date.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(pickup_date);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        pickup_time.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(pickup_time);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        no_of_passengers.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(no_of_passengers);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        no_of_luggage.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(no_of_luggage);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+    }
+
+    private void submitForm() {
+        // update the main content by replacing fragments
+        FragmentManager fragmentManager = getFragmentManager();
+        Transfer transfer = getTransfer();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, AirportVehicleFragment.newInstance(2, transfer))
+                .addToBackStack("AirportVehicleFragment")
+                .commit();
+    }
+
+    private boolean checkValidation() {
+        boolean ret = true;
+
+        if (!Validation.hasText(destination)) ret = false;
+        if (!Validation.hasText(txtFlightNo)) ret = false;
+        if (!Validation.hasText(pickup_date)) ret = false;
+        if (!Validation.hasText(pickup_time)) ret = false;
+        if (!Validation.hasText(no_of_passengers)) ret = false;
+        if (!Validation.hasText(no_of_luggage)) ret = false;
+
+
+        return ret;
     }
 
     private Transfer getTransfer(){
@@ -213,7 +301,7 @@ public class AirportFragment extends Fragment {
         int noOfPassenger = Integer.parseInt( no_of_passengers.getText().toString() );
         int noOfLuggage = Integer.parseInt(no_of_luggage.getText().toString());
 
-        Transfer transfer = new Transfer(null, "Arrival", null, flightNo, from, to, noOfPassenger, noOfLuggage, convertedDate, null);
+        Transfer transfer = new Transfer(java.util.UUID.randomUUID().toString(), "Arrival", null, flightNo, from, to, noOfPassenger, noOfLuggage, convertedDate, null);
         return transfer;
     }
 

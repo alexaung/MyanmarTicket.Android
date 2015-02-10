@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -18,12 +20,13 @@ public class Transfer implements Serializable{
     private String to;
     private int noOfPassenger;
     private int noOfLuggage;
-    private Date date;
+    private String transferDate;
+    private String car_Id;
     private Car car;
 
     public Transfer(){};
 
-    public Transfer(String id, String service, String pickUp, String flightNo, String from, String to, int noOfPassenger, int noOfLuggage, Date date, Car car){
+    public Transfer(String id, String service, String pickUp, String flightNo, String from, String to, int noOfPassenger, int noOfLuggage, Date transferDate, Car car){
         this.id = id;
         this.service = service;
         this.pickUp = pickUp;
@@ -32,7 +35,8 @@ public class Transfer implements Serializable{
         this.to = to;
         this.noOfPassenger = noOfPassenger;
         this.noOfLuggage = noOfLuggage;
-        this.date = date;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        this.transferDate = dateFormat.format(transferDate);
         this.car = car;
     }
 
@@ -96,13 +100,26 @@ public class Transfer implements Serializable{
         this.noOfLuggage = noOfLuggage;
     }
 
-    public Date getDate(){
-        return this.date;
+    public Date getTransferDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        Date convertedDate = new Date();
+        try {
+            convertedDate = dateFormat.parse(this.transferDate);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return convertedDate;
     }
 
-    public void setDate(Date date){
-        this.date = date;
+    public void setTransferDate(Date transferDate){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        this.transferDate = dateFormat.format(transferDate);
     }
+
+    public String getCar_Id() { return  this.car_Id; }
+
+    public void setCar_Id(String car_Id) { this.car_Id = car_Id; }
 
     public Car getCar(){
         return this.car;

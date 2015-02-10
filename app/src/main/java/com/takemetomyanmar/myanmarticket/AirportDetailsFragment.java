@@ -1,6 +1,8 @@
 package com.takemetomyanmar.myanmarticket;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.microsoft.windowsazure.mobileservices.ApiJsonOperationCallback;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.NextServiceFilterCallback;
+import com.microsoft.windowsazure.mobileservices.ServiceFilter;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterRequest;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterResponseCallback;
+import com.microsoft.windowsazure.mobileservices.TableOperationCallback;
 import com.paypal.android.sdk.payments.PayPalAuthorization;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalFuturePaymentActivity;
@@ -21,17 +35,22 @@ import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
-import com.takemetomyanmar.myanmarticket.adapter.KeyValueArrayAdapter;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Booking;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Car;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Personal;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Transfer;
 
+
 import org.json.JSONException;
+import org.json.JSONObject;
+
 
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Created by AlexAung on 2/7/2015.
@@ -76,6 +95,10 @@ public class AirportDetailsFragment extends Fragment {
     private TextView txtLeadEmail;
     private TextView txtLeadMobilePhone;
 
+    private Booking booking;
+
+    private ProgressDialog mProgressBar;
+
     public AirportDetailsFragment(){}
     /**
      * The fragment argument representing the section number for this
@@ -84,6 +107,16 @@ public class AirportDetailsFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private static final String ARG_BOOKING_OBJECT = "Booking";
+    /**
+     * Mobile Service URL.
+     */
+    private static String SERVICE_URL = "";
+    /**
+     * Mobile Service URL.
+     */
+    private static String SERVICE_KEY = "";
+
+    MobileServiceClient mClient;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -102,6 +135,18 @@ public class AirportDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_airportdetails, container, false);
+
+        SERVICE_URL = getString(R.string.mobile_service_url);
+        SERVICE_KEY = getString(R.string.mobile_service_key);
+        //mProgressBar = (ProgressBar) rootView.findViewById(R.id.loadingProgressBar);
+
+        // Initialize the progress bar
+        //mProgressBar.setVisibility(ProgressBar.GONE);
+        mProgressBar = new ProgressDialog(getActivity());
+        mProgressBar.setTitle("Processing");
+        mProgressBar.setMessage("Please Wait...");
+        mProgressBar.setCancelable(false);
+
 
         txtService = (TextView) rootView.findViewById(R.id.txtService);
         txtPickUp = (TextView) rootView.findViewById(R.id.txtPickUp);
@@ -143,9 +188,10 @@ public class AirportDetailsFragment extends Fragment {
     }
 
     private void setFormData(){
-        Booking booking = (Booking) getArguments().getSerializable(ARG_BOOKING_OBJECT);
+        booking = (Booking) getArguments().getSerializable(ARG_BOOKING_OBJECT);
 
-        Transfer transfer = booking.getTransfer();
+        Collection<Transfer> transfers = booking.getTransfers();
+        Transfer transfer = (Transfer) transfers.toArray()[0];
         Car car = transfer.getCar();
         Personal account = booking.getBookBy();
         Personal leadPassenger = booking.getLeadPassenger();
@@ -159,21 +205,23 @@ public class AirportDetailsFragment extends Fragment {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
-        txtPickUp.setText(dateFormat.format(transfer.getDate()));
+        txtPickUp.setText(dateFormat.format(transfer.getTransferDate()));
         txtFlightNo.setText(transfer.getFlightNo());
         txtRoute.setText(airportName[position].toString() + " --> " + transfer.getTo());
         txtNoOfPassengers.setText(String.valueOf(transfer.getNoOfPassenger()));
         txtNoOfLuggage.setText(String.valueOf(transfer.getNoOfLuggage()));
 
-        txtCarName.setText(car.getName());
-        txtCarRates.setText(String.format("%.2f", car.getRates()));
+        if(car != null) {
+            txtCarName.setText(car.getName());
+            txtCarRates.setText(String.format("%.2f", car.getRates()));
 
-        int imageId = getActivity().getResources().getIdentifier(car.getImage(), "drawable", getActivity().getPackageName());
+            int imageId = getActivity().getResources().getIdentifier(car.getImage(), "drawable", getActivity().getPackageName());
 
-        imgCarImage.setImageResource(imageId);
-        txtCarDescription.setText(car.getDescription());
-        txtSeatingCapacity.setText(String.valueOf(car.getSeatingCapacity()));
-        txtCarNoOfLuggage.setText(String.valueOf(car.getLuggage()));
+            imgCarImage.setImageResource(imageId);
+            txtCarDescription.setText(car.getDescription());
+            txtSeatingCapacity.setText(String.valueOf(car.getSeatingCapacity()));
+            txtCarNoOfLuggage.setText(String.valueOf(car.getLuggage()));
+        }
 
         txtContactName.setText(account.getTitle() + " " + account.getFirstName() + " " + account.getLastName());
         txtEmail.setText(account.getEmail());
@@ -213,17 +261,74 @@ public class AirportDetailsFragment extends Fragment {
     public void onBuyPressed(View pressed) {
 
         try{
+            createBooking();
 
-                PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(20.00),
-                        "USD", "Transfer - Arrival (Kullager)", PayPalPayment.PAYMENT_INTENT_SALE);
 
-                Intent intent = new Intent(getActivity(), PaymentActivity.class);
-                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
-                startActivityForResult(intent, REQUEST_CODE_PAYMENT);
+//                PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(20.00),
+//                        "USD", "Transfer - Arrival (Kullager)", PayPalPayment.PAYMENT_INTENT_SALE);
+//
+//                Intent intent = new Intent(getActivity(), PaymentActivity.class);
+//                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
+//                startActivityForResult(intent, REQUEST_CODE_PAYMENT);
 
         }catch (NumberFormatException e){
             Toast.makeText(getActivity(), "Age value cannot be empty. \n Please enter a valid age.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void createBooking(){
+
+        Transfer transfer = booking.getTransfers().get(0);
+        transfer.setCar(null);
+        ArrayList<Transfer> transfers = new ArrayList<Transfer>();
+
+        transfers.add(transfer);
+        booking.setTransfers(transfers);
+
+
+//        try{
+//            String confirmMsg = confirm.toJSONObject().toString(4);
+//
+//        } catch (JSONException e) {
+//            Log.e("FuturePaymentExample", "an extremely unlikely failure occurred: ", e);
+//        }
+
+        try {
+             mClient = new MobileServiceClient(SERVICE_URL, SERVICE_KEY
+                    , getActivity()).withFilter(new ProgressFilter());
+
+            MobileServiceTable<Booking> mBooking = mClient.getTable(Booking.class);
+
+
+            mBooking.insert(booking, new TableOperationCallback<Booking>() {
+                @Override
+                public void onCompleted(Booking b, Exception e, ServiceFilterResponse serviceFilterResponse) {
+                    if(e == null) {
+                        try{
+                            booking = b;
+                            PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(20.00),
+                                    "USD", "Transfer - Arrival (Kullager)", PayPalPayment.PAYMENT_INTENT_SALE);
+
+                            Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
+                            startActivityForResult(intent, REQUEST_CODE_PAYMENT);
+
+
+                        }catch (NumberFormatException ex){
+                            Toast.makeText(getActivity(), "Age value cannot be empty. \n Please enter a valid age.", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Log.e("AMS", "Exception", e);
+                        createAndShowDialog(e, "Error");
+                    }
+
+
+                }
+            });
+        } catch (MalformedURLException e) {
+            createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
+        }
+
     }
 
     @Override
@@ -234,10 +339,17 @@ public class AirportDetailsFragment extends Fragment {
                         .getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirm != null) {
                     try {
+
                         Log.i("paymentExample", confirm.toJSONObject().toString(4));
+                        String  strConfirm = confirm.toJSONObject().toString(4);
+                        JSONObject jsonObject = new JSONObject(strConfirm);
+                        jsonObject = jsonObject.getJSONObject("response");
+                        String id = jsonObject.getString("id");
 
                         Toast.makeText(getActivity().getApplicationContext(), "PaymentConfirmation info received from PayPal",
                                 Toast.LENGTH_LONG).show();
+                        booking.setPaymentId(id);
+                        verifyMobilePayment();
 
                     } catch (JSONException e) {
                         Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
@@ -260,6 +372,7 @@ public class AirportDetailsFragment extends Fragment {
                         Log.i("FuturePaymentExample", authorization_code);
 
                         sendAuthorizationToServer(auth);
+
                         Toast.makeText(getActivity().getApplicationContext(), "Future Payment code received from PayPal",
                                 Toast.LENGTH_LONG).show();
 
@@ -278,6 +391,39 @@ public class AirportDetailsFragment extends Fragment {
 
     private void sendAuthorizationToServer(PayPalAuthorization authorization) {
 
+
+    }
+
+    private void verifyMobilePayment(){
+
+        Gson gson = new Gson();
+        String json = gson.toJson(booking);
+        JsonElement element = gson.fromJson (json, JsonElement.class);
+        JsonObject jsonObj = element.getAsJsonObject();
+
+        String apiName = "Paypal";
+
+        mClient.invokeApi(apiName, jsonObj, new ApiJsonOperationCallback(){
+
+            @Override
+            public void onCompleted(JsonElement jsonElement, Exception e, ServiceFilterResponse response) {
+                if(e == null) {
+                    try{
+
+                        Toast.makeText(getActivity(), "Payment Verified.", Toast.LENGTH_LONG).show();
+
+
+                    }catch (NumberFormatException ex){
+                        Toast.makeText(getActivity(), "Payment Verification Fail.", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Log.e("AMS", "Exception", e);
+                    createAndShowDialog(e, "Error");
+                }
+            }
+        });
+
+
     }
 
     @Override
@@ -286,4 +432,71 @@ public class AirportDetailsFragment extends Fragment {
         getActivity().stopService(new Intent(getActivity(), PayPalService.class));
         super.onDestroy();
     }
+
+    /**
+     * Creates a dialog and shows it
+     *
+     * @param exception
+     *            The exception to show in the dialog
+     * @param title
+     *            The dialog title
+     */
+    private void createAndShowDialog(Exception exception, String title) {
+        Throwable ex = exception;
+        if(exception.getCause() != null){
+            ex = exception.getCause();
+        }
+        createAndShowDialog(ex.getMessage(), title);
+    }
+    /**
+     * Creates a dialog and shows it
+     *
+     * @param message
+     *            The dialog message
+     * @param title
+     *            The dialog title
+     */
+    private void createAndShowDialog(String message, String title) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setMessage(message);
+        builder.setTitle(title);
+        builder.create().show();
+    }
+
+    private class ProgressFilter implements ServiceFilter {
+
+        @Override
+        public void handleRequest(ServiceFilterRequest request, NextServiceFilterCallback nextServiceFilterCallback,
+                                  final ServiceFilterResponseCallback responseCallback) {
+            getActivity().runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (mProgressBar != null)
+                        mProgressBar.show();
+                        //mProgressBar.setVisibility(ProgressBar.VISIBLE);
+                }
+            });
+
+            nextServiceFilterCallback.onNext(request, new ServiceFilterResponseCallback() {
+
+                @Override
+                public void onResponse(ServiceFilterResponse response, Exception exception) {
+                    getActivity().runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (mProgressBar != null)
+                                mProgressBar.dismiss();
+                                //mProgressBar.setVisibility(ProgressBar.GONE);
+                        }
+                    });
+
+                    if (responseCallback != null)  responseCallback.onResponse(response, exception);
+                }
+            });
+        }
+    }
+
 }

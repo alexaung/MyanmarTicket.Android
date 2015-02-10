@@ -29,86 +29,104 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"/>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tableLayout1"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:orientation="horizontal" >
-                <TextView
-                    android:id="@+id/lblService"
+                android:layout_height="fill_parent" >
+
+                <!-- 2 columns -->
+                <TableRow
+                    android:id="@+id/tableRow1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Service : "
-                    android:layout_weight="1"
-                    style="@style/label_style"/>
-                <TextView
-                    android:id="@+id/txtService"
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:id="@+id/lblService"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Service : "
+                        android:layout_weight="0.2"
+                        style="@style/label_style"/>
+                    <TextView
+                        android:id="@+id/txtService"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        style="@style/text_style" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    style="@style/text_style" />
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:orientation="horizontal" >
-                <TextView
-                    android:id="@+id/lblPickUp"
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:id="@+id/lblPickUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pick-up : "
+                        android:layout_weight="0.2"
+                        style="@style/label_style"/>
+                    <TextView
+                        android:id="@+id/txtPickUp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        style="@style/text_style" />
+
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pick-up : "
-                    android:layout_weight="1"
-                    style="@style/label_style"/>
-                <TextView
-                    android:id="@+id/txtPickUp"
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:id="@+id/lblFlightNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Flight No.: "
+                        android:layout_weight="0.2"
+                        style="@style/label_style"/>
+                    <TextView
+                        android:id="@+id/txtFlightNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        style="@style/text_style" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    style="@style/text_style" />
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:orientation="horizontal" >
-                <TextView
-                    android:id="@+id/lblFlightNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Flight No. : "
-                    android:layout_weight="1"
-                    style="@style/label_style"/>
-                <TextView
-                    android:id="@+id/txtFlightNo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    style="@style/text_style" />
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:orientation="horizontal" >
-                <TextView
-                    android:id="@+id/lblRoute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Route : "
-                    android:layout_weight="1"
-                    style="@style/label_style"/>
-                <TextView
-                    android:id="@+id/txtRoute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    style="@style/text_style" />
-            </LinearLayout>
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:id="@+id/lblRoute"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Route : "
+                        android:layout_weight="0.2"
+                        style="@style/label_style"/>
+                    <TextView
+                        android:id="@+id/txtRoute"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        style="@style/text_style" />
+
+
+                </TableRow>
+            </TableLayout>
+
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -285,66 +303,76 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"/>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tableLayout2"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:orientation="horizontal" >
-                <TextView
-                    android:id="@+id/lblContactName"
+                android:layout_height="fill_parent" >
+
+                <TableRow
+                    android:id="@+id/tableRow5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name : "
-                    android:layout_weight="1"
-                    style="@style/label_style"/>
-                <TextView
-                    android:id="@+id/txtContactName"
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:id="@+id/lblContactName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name : "
+                        android:layout_weight="0.2"
+                        style="@style/label_style"/>
+                    <TextView
+                        android:id="@+id/txtContactName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        style="@style/text_style" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    style="@style/text_style" />
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:orientation="horizontal" >
-                <TextView
-                    android:id="@+id/lblEmail"
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:id="@+id/lblEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email : "
+                        android:layout_weight="0.2"
+                        style="@style/label_style"/>
+                    <TextView
+                        android:id="@+id/txtEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        style="@style/text_style" />
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email : "
-                    android:layout_weight="1"
-                    style="@style/label_style"/>
-                <TextView
-                    android:id="@+id/txtEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    style="@style/text_style" />
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:orientation="horizontal" >
-                <TextView
-                    android:id="@+id/lblMobilePhone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mobile No. : "
-                    android:layout_weight="1"
-                    style="@style/label_style"/>
-                <TextView
-                    android:id="@+id/txtMobilePhone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="9"
-                    style="@style/text_style" />
-            </LinearLayout>
+                    android:padding="5dip" >
+
+                    <TextView
+                            android:id="@+id/lblMobilePhone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mobile No. : "
+                            android:layout_weight="0.2"
+                            style="@style/label_style"/>
+                    <TextView
+                        android:id="@+id/txtMobilePhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        style="@style/text_style" />
+
+                </TableRow>
+            </TableLayout>>
 
         </LinearLayout>
 
@@ -365,65 +393,70 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"/>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tableLayout3"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:orientation="horizontal" >
+                android:layout_height="fill_parent" >
+
+            <TableRow
+                android:id="@+id/tableRow8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip" >
                 <TextView
                     android:id="@+id/lblLeadName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Name : "
-                    android:layout_weight="1"
+                    android:layout_weight="0.2"
                     style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtLeadName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="9"
+                    android:layout_weight="0.8"
                     style="@style/text_style" />
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:orientation="horizontal" >
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRow9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip" >
                 <TextView
                     android:id="@+id/lblLeadEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email : "
-                    android:layout_weight="1"
+                    android:layout_weight="0.2"
                     style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtLeadEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="9"
+                    android:layout_weight="0.8"
                     style="@style/text_style" />
-            </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:paddingLeft="@dimen/vehicle_item_status_pad_left_right"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:orientation="horizontal" >
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRow10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip" >
                 <TextView
                     android:id="@+id/lblLeadMobilePhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mobile No. : "
-                    android:layout_weight="1"
+                    android:layout_weight="0.2"
                     style="@style/label_style"/>
                 <TextView
                     android:id="@+id/txtLeadMobilePhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
                     style="@style/text_style" />
-            </LinearLayout>
+            </TableRow>
+
+            </TableLayout>
 
             <Button
                 android:id="@+id/btnNext"
@@ -434,8 +467,6 @@
                 style="@style/button_style" />
 
         </LinearLayout>
-
-
 
     </LinearLayout>
 

@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +16,20 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.takemetomyanmar.myanmarticket.Util.Validation;
 import com.takemetomyanmar.myanmarticket.adapter.KeyValueArrayAdapter;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Booking;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Personal;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Transfer;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+
+import static java.util.UUID.randomUUID;
 
 /**
  * Created by AMO on 2/6/2015.
@@ -92,6 +102,16 @@ public class AirportPersonalFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_airportpersonal, container, false);
+
+        registerViews(rootView);
+
+        setControlValidator();
+
+        return rootView;
+    }
+
+
+    private void registerViews(View rootView) {
 
         final LinearLayout leadPassengerGroup = (LinearLayout) rootView.findViewById(R.id.leadPassengerGroup);
         leadPassengerGroup.setVisibility(View.GONE);
@@ -179,21 +199,116 @@ public class AirportPersonalFragment extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
+                if ( checkValidation () )
+                    submitForm();
+                else
+                    Toast.makeText(getActivity(), "Form contains error", Toast.LENGTH_LONG).show();
 
-                // update the main content by replacing fragment
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, AirportDetailsFragment.newInstance(2, getBooking()))
-                        .addToBackStack("AirportDetailsFragment")
-                        .commit();
             }
         });
 
-        return rootView;
+
+    }
+
+    private void setControlValidator(){
+        // TextWatcher would let us check validation error on the fly
+        txtFirstName.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(txtFirstName);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        txtLastName.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(txtLastName);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        txtMobilePhone.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(txtMobilePhone);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        txtEmail.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.isEmailAddress(txtPEmail, true);
+
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        txtPFirstName.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(txtPFirstName);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        txtPLastName.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(txtPLastName);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        txtPMobilePhone.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.hasText(txtPMobilePhone);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+        txtPEmail.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                Validation.isEmailAddress(txtPEmail, true);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
+    }
+
+    private void submitForm() {
+        // update the main content by replacing fragment
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, AirportDetailsFragment.newInstance(2, getBooking()))
+                .addToBackStack("AirportDetailsFragment")
+                .commit();
+    }
+
+    private boolean checkValidation() {
+        boolean ret = true;
+
+        if (!Validation.hasText(txtFirstName)) ret = false;
+        if (!Validation.hasText(txtLastName)) ret = false;
+        if (!Validation.hasText(txtMobilePhone)) ret = false;
+        if (!Validation.isEmailAddress(txtEmail, true)) ret = false;
+
+        if(!chkLeadPassenger.isChecked()) {
+            if (!Validation.hasText(txtPFirstName)) ret = false;
+            if (!Validation.hasText(txtPLastName)) ret = false;
+            if (!Validation.hasText(txtPMobilePhone)) ret = false;
+            if (!Validation.isEmailAddress(txtPEmail, true)) ret = false;
+        }
+
+
+        return ret;
     }
 
     private Personal getAccountDetail(){
-        Personal accountDetail = new Personal(null, accountTitleCode,
+        Personal accountDetail = new Personal(randomUUID().toString(), accountTitleCode,
                 txtFirstName.getText().toString(),
                 txtLastName.getText().toString(),
                 txtEmail.getText().toString(),
@@ -203,7 +318,7 @@ public class AirportPersonalFragment extends Fragment {
     }
 
     private Personal getLeadPassengerDetail(){
-        Personal leadPassengerDetail = new Personal(null, leadTitleCode,
+        Personal leadPassengerDetail = new Personal(randomUUID().toString(), leadTitleCode,
                 txtPFirstName.getText().toString(),
                 txtPLastName.getText().toString(),
                 txtPEmail.getText().toString(),
@@ -214,6 +329,7 @@ public class AirportPersonalFragment extends Fragment {
 
     private Booking getBooking(){
         Transfer transfer = (Transfer) getArguments().getSerializable(ARG_TRANSFER_OBJECT);
+
         Personal account = getAccountDetail();
         Personal leadPassenger;
         if(chkLeadPassenger.isChecked())
@@ -222,7 +338,11 @@ public class AirportPersonalFragment extends Fragment {
             leadPassenger = getLeadPassengerDetail();
 
         Booking booking = new Booking();
-        booking.setTransfer(transfer);
+        booking.setBookingDate(new Date());
+        ArrayList<Transfer> transfers = new ArrayList<Transfer>();
+
+        transfers.add(transfer);
+        booking.setTransfers(transfers);
         booking.setBookBy(account);
         booking.setLeadPassenger(leadPassenger);
 

@@ -47,11 +47,11 @@ public class AirportVehicleFragment extends Fragment {
     /**
      * Mobile Service URL.
      */
-    private static final String SERVICE_URL = "https://myanmarticket.azure-mobile.net/";
+    private static String SERVICE_URL = "";
     /**
      * Mobile Service URL.
      */
-    private static final String SERVICE_KEY = "sCIAeXGjWNEZkskobCEsOuAKEZFsXs62";
+    private static String SERVICE_KEY = "sCIAeXGjWNEZkskobCEsOuAKEZFsXs62";
     /**
      * Remember the position of the selected item.
      */
@@ -111,6 +111,8 @@ public class AirportVehicleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        SERVICE_URL = getString(R.string.mobile_service_url);
+        SERVICE_KEY = getString(R.string.mobile_service_key);
 
         mVehicleListView = (LinearLayout) inflater.inflate(
                 R.layout.fragment_airportvehicle, container, false);
@@ -153,6 +155,7 @@ public class AirportVehicleFragment extends Fragment {
                 // Perform action on click
                 Transfer transfer = (Transfer) getArguments().getSerializable(ARG_TRANSFER_OBJECT);
                 transfer.setCar(car);
+                transfer.setCar_Id(car.getId());
                 // update the main content by replacing fragments
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction()
