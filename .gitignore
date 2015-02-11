@@ -43,9 +43,19 @@ Temporary Items
 .apdisk
 
 # Android Studio 
+.idea/
 .gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
+/*/local.properties
+/*/out
+/*/*/build
+/*/*/production
+*.iml
+*.iws
+*.ipr
+*~
+*.swp
+
+*/build
+*/production
+*/local.properties
+*/out
