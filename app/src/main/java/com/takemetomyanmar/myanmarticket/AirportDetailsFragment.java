@@ -118,6 +118,7 @@ public class AirportDetailsFragment extends Fragment {
 
     MobileServiceClient mClient;
 
+    private double paymentTotal = 0.0;
     /**
      * Returns a new instance of this fragment for the given section
      * number.
@@ -213,7 +214,7 @@ public class AirportDetailsFragment extends Fragment {
 
         if(car != null) {
             txtCarName.setText(car.getName());
-            txtCarRates.setText(String.format("%.2f", car.getRates()));
+            txtCarRates.setText(String.format("%.2f", car.getRates()) + " USD");
 
             int imageId = getActivity().getResources().getIdentifier(car.getImage(), "drawable", getActivity().getPackageName());
 
@@ -262,23 +263,16 @@ public class AirportDetailsFragment extends Fragment {
 
         try{
             createBooking();
-
-
-//                PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(20.00),
-//                        "USD", "Transfer - Arrival (Kullager)", PayPalPayment.PAYMENT_INTENT_SALE);
-//
-//                Intent intent = new Intent(getActivity(), PaymentActivity.class);
-//                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
-//                startActivityForResult(intent, REQUEST_CODE_PAYMENT);
-
-        }catch (NumberFormatException e){
-            Toast.makeText(getActivity(), "Age value cannot be empty. \n Please enter a valid age.", Toast.LENGTH_LONG).show();
+        }catch (Exception e){
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     public void createBooking(){
 
         Transfer transfer = booking.getTransfers().get(0);
+        paymentTotal = transfer.getCar().getRates();
+        transfer.setRate(paymentTotal);
         transfer.setCar(null);
         ArrayList<Transfer> transfers = new ArrayList<Transfer>();
 
@@ -306,8 +300,11 @@ public class AirportDetailsFragment extends Fragment {
                     if(e == null) {
                         try{
                             booking = b;
-                            PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(20.00),
-                                    "USD", "Transfer - Arrival (Kullager)", PayPalPayment.PAYMENT_INTENT_SALE);
+                            Transfer transfer = booking.getTransfers().get(0);
+                            Car car = transfer.getCar();
+                            String description = "Transfer - Arrival ( "+ car.getName()+" - up to " + car.getSeatingCapacity() + " pax + " + car.getLuggage() + " luggage )";
+                            PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(transfer.getRate()),
+                                    "USD", description, PayPalPayment.PAYMENT_INTENT_SALE);
 
                             Intent intent = new Intent(getActivity(), PaymentActivity.class);
                             intent.putExtra(PaymentActivity.EXTRA_PAYMENT, thingToBuy);
@@ -340,19 +337,18 @@ public class AirportDetailsFragment extends Fragment {
                 if (confirm != null) {
                     try {
 
-                        Log.i("paymentExample", confirm.toJSONObject().toString(4));
-                        String  strConfirm = confirm.toJSONObject().toString(4);
-                        JSONObject jsonObject = new JSONObject(strConfirm);
-                        jsonObject = jsonObject.getJSONObject("response");
-                        String id = jsonObject.getString("id");
+                        Log.i("PayPal", confirm.toJSONObject().toString(4));
+
+                        JSONObject jsonObj=new JSONObject(confirm.toJSONObject().toString());
+                        String paymentId=jsonObj.getJSONObject("response").getString("id");
 
                         Toast.makeText(getActivity().getApplicationContext(), "PaymentConfirmation info received from PayPal",
                                 Toast.LENGTH_LONG).show();
-                        booking.setPaymentId(id);
+                        booking.setPaymentId(paymentId);
                         verifyMobilePayment();
 
                     } catch (JSONException e) {
-                        Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
+                        Log.e("PayPal", "an extremely unlikely failure occurred: ", e);
                     }
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {

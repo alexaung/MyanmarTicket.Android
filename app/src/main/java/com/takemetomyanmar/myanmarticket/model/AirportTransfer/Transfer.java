@@ -20,6 +20,7 @@ public class Transfer implements Serializable{
     private String to;
     private int noOfPassenger;
     private int noOfLuggage;
+    private double rate;
     private String transferDate;
     private String car_Id;
     private Car car;
@@ -99,6 +100,10 @@ public class Transfer implements Serializable{
     public void setNoOfLuggage(int noOfLuggage){
         this.noOfLuggage = noOfLuggage;
     }
+
+    public double getRate() { return this.rate; }
+
+    public void setRate(double rate) { this.rate = rate; }
 
     public Date getTransferDate(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
