@@ -401,7 +401,7 @@ public class AirportDetailsFragment extends Fragment {
         JsonElement element = gson.fromJson (json, JsonElement.class);
         JsonObject jsonObj = element.getAsJsonObject();
 
-        String apiName = "Paypal";
+        String apiName = "PayPal";
 
         mClient.invokeApi(apiName, jsonObj, new ApiJsonOperationCallback(){
 
