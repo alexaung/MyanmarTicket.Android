@@ -3,6 +3,7 @@ package com.takemetomyanmar.myanmarticket;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,10 +21,12 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.takemetomyanmar.myanmarticket.Authentication.AuthenticationApplication;
+import com.takemetomyanmar.myanmarticket.Authentication.CustomLoginActivity;
 import com.takemetomyanmar.myanmarticket.Util.Validation;
 import com.takemetomyanmar.myanmarticket.adapter.KeyValueArrayAdapter;
-import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Airport;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Transfer;
+import com.takemetomyanmar.myanmarticket.Authentication.AuthService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +51,7 @@ public class AirportFragment extends Fragment {
     public TimePickerDialog.OnTimeSetListener timeSetListener;
 
     public String airportCode;
+    protected AuthService mAuthService;
 
     public AirportFragment(){}
     /**
@@ -70,6 +74,14 @@ public class AirportFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        AuthenticationApplication myApp = (AuthenticationApplication) getActivity().getApplication();
+        mAuthService = myApp.getAuthService();
+        if (!mAuthService.isUserAuthenticated()) {
+            Intent customLoginIntent = new Intent(getActivity().getApplicationContext(), CustomLoginActivity.class);
+            customLoginIntent.putExtra("position", 1);
+            startActivity(customLoginIntent);
+        }
 
         View rootView = inflater.inflate(R.layout.fragment_airport, container, false);
 

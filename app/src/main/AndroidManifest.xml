@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name="com.takemetomyanmar.myanmarticket.Authentication.AuthenticationApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -28,7 +29,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name="com.takemetomyanmar.myanmarticket.Authentication.LoggedInActivity"
+            android:label="@string/title_activity_logged_in" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.takemetomyanmar.myanmarticket.Authentication.AuthenticationActivity" />
+        </activity>
+        <activity
+            android:name="com.takemetomyanmar.myanmarticket.Authentication.CustomLoginActivity"
+            android:label="@string/title_activity_custom_login" >
+        </activity>
+        <activity
+            android:name="com.takemetomyanmar.myanmarticket.Authentication.RegisterAccountActivity"
+            android:label="@string/title_activity_register_account" >
+        </activity>
         <service android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />
 
