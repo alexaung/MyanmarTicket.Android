@@ -99,9 +99,7 @@
                     android:text="Next, Select Vehicle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/button_style"
-
-                    />
+                    style="@style/button_style"/>
 
         </LinearLayout>
 

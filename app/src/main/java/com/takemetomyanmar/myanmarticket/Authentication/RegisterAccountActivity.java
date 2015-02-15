@@ -31,6 +31,7 @@ public class RegisterAccountActivity extends BaseActivity {
     private EditText mTxtPassword;
     private EditText mTxtConfirm;
     private EditText mTxtEmail;
+    private EditText mTxtPhone;
     private Activity mActivity;
     private int position;
 
@@ -38,6 +39,7 @@ public class RegisterAccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_account);
+        setTitle("Register");
 
         mActivity = this;
         Bundle extras = getIntent().getExtras();
@@ -49,6 +51,7 @@ public class RegisterAccountActivity extends BaseActivity {
         mTxtPassword = (EditText) findViewById(R.id.txtRegisterPassword);
         mTxtConfirm = (EditText) findViewById(R.id.txtRegisterConfirm);
         mTxtEmail = (EditText) findViewById(R.id.txtRegisterEmail);
+        mTxtPhone = (EditText) findViewById(R.id.txtRegisterPhone);
 
         //Set click listeners
         btnRegister.setOnClickListener(registerClickListener);
@@ -68,7 +71,9 @@ public class RegisterAccountActivity extends BaseActivity {
             if (mTxtUsername.getText().toString().equals("") ||
                     mTxtPassword.getText().toString().equals("") ||
                     mTxtConfirm.getText().toString().equals("") ||
-                    mTxtEmail.getText().toString().equals("")) {
+                    mTxtEmail.getText().toString().equals("") ||
+                    mTxtPhone.getText().toString().equals(""))
+            {
                 Log.w(TAG, "You must enter all fields to register");
                 return;
             } else if (!mTxtPassword.getText().toString().equals(mTxtConfirm.getText().toString())) {
@@ -79,7 +84,7 @@ public class RegisterAccountActivity extends BaseActivity {
                         mTxtPassword.getText().toString(),
                         mTxtConfirm.getText().toString(),
                         mTxtEmail.getText().toString(),
-                        "Phone",
+                        mTxtPhone.getText().toString(),
                         new ApiJsonOperationCallback() {
                             @Override
                             public void onCompleted(JsonElement jsonElement, Exception exception,

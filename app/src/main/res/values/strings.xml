@@ -26,16 +26,17 @@
     <string name="youre_in">You\'re in!</string>
     <string name="title_activity_custom_login">CustomLoginActivity</string>
     <string name="custom_auth">Custom Auth</string>
-    <string name="username">Username:</string>
+    <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="cancel">Cancel</string>
     <string name="login">Login</string>
     <string name="register_for_account">Register for Account</string>
     <string name="title_activity_register_account">RegisterAccountActivity</string>
     <string name="register">Register</string>
-    <string name="confirm">Confirm:</string>
-    <string name="email">Email:</string>
-    <string name="user_id">User ID:</string>
+    <string name="confirm">Confirm</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="user_id">User ID</string>
     <string name="logout">Logout</string>
     <string name="test_401_retry">Test 401 Retry</string>
     <string name="test_401_no_retry">Test 401 no Retry</string>
@@ -46,8 +47,8 @@
         <item >Airport Transfer</item>
         <item >Bus Ticket</item>
         <item >Tour Packages</item>
-        <item >Pages</item>
-        <item >What\'s Hot</item>
+        <item >Logout</item>
+        <item >Login</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
@@ -57,8 +58,8 @@
         <item>@drawable/ic_people</item>
         <item>@drawable/ic_photos</item>
         <item>@drawable/ic_communities</item>
-        <item>@drawable/ic_pages</item>
-        <item>@drawable/ic_whats_hot</item>
+        <item>@drawable/ic_logout</item>
+        <item>@drawable/ic_login</item>
     </array>
 
     <!-- Content Description -->

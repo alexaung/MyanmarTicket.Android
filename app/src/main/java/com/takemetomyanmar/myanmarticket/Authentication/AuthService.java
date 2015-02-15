@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.http.StatusLine;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -24,7 +26,9 @@ import android.webkit.CookieSyncManager;
 import android.widget.Toast;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.microsoft.windowsazure.mobileservices.ApiJsonOperationCallback;
 import com.microsoft.windowsazure.mobileservices.MobileServiceAuthenticationProvider;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -109,16 +113,18 @@ public class AuthService {
      * @return
      */
     public boolean isUserAuthenticated() {
+        boolean isAuthenticated = false;
         SharedPreferences settings = mContext.getSharedPreferences("UserData", 0);
         if (settings != null) {
             String userId = settings.getString("userid", null);
             String token = settings.getString("token", null);
             if (userId != null && !userId.equals("")) {
                 setUserData(userId, token);
-                return true;
+                isAuthenticated = true;
             }
         }
-        return false;
+        return isAuthenticated;
+
     }
 
     /**
@@ -134,7 +140,7 @@ public class AuthService {
 
         //Check for custom provider
         String provider = userId.substring(0, userId.indexOf(":"));
-        if (provider.equals("Custom")) {
+        if (provider.equals("custom")) {
             mProvider = null;
             mIsCustomAuthProvider = true;
         } else if (provider.equals("Facebook"))
@@ -152,11 +158,21 @@ public class AuthService {
      * @param jsonElement
      */
     public void setUserAndSaveData(JsonElement jsonElement) {
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        String userId = jsonObject.getAsJsonPrimitive("userId").getAsString();
-        String token = jsonObject.getAsJsonPrimitive("token").getAsString();
-        setUserData(userId, token);
-        saveUserData();
+
+        //String strJSON = jsonElement.getAsJsonObject().getAsString();
+        //JSONObject jsonObject = null;
+        try {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+            JsonObject userObj = jsonObject.getAsJsonObject("user");
+
+            String userId = userObj.get("userId").toString();
+            String token = jsonObject.get("authenticationToken").toString();
+            setUserData(userId, token);
+            saveUserData();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -215,8 +231,10 @@ public class AuthService {
         mClient.logout();
         //Take the user back to the auth activity to relogin if requested
         if (shouldRedirectToLogin) {
-            Intent logoutIntent = new Intent(mContext, AuthenticationActivity.class);
-            logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//            Intent logoutIntent = new Intent(mContext, AuthenticationActivity.class);
+//            logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//            mContext.startActivity(logoutIntent);
+            Intent logoutIntent = new Intent(mContext, CustomLoginActivity.class);
             mContext.startActivity(logoutIntent);
         }
     }

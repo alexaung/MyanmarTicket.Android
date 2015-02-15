@@ -42,6 +42,7 @@ public class CustomLoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_login);
+        setTitle("Login");
 
         mActivity = this;
         // Initialize the progress bar
@@ -74,6 +75,10 @@ public class CustomLoginActivity extends BaseActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     View.OnClickListener cancelClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -98,6 +103,14 @@ public class CustomLoginActivity extends BaseActivity {
                     mTxtUsername.getText().toString().equals("")) {
                 //We're just logging this here, we should show something to the user
                 Log.w(TAG, "Username or password not entered");
+                mActivity.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (progressDialog != null)
+                            progressDialog.dismiss();
+                    }
+                });
                 return;
             }
             mAuthService.login(mTxtUsername.getText().toString(), mTxtPassword.getText().toString(), new ApiJsonOperationCallback(){
@@ -117,9 +130,11 @@ public class CustomLoginActivity extends BaseActivity {
                                     progressDialog.dismiss();
                             }
                         });
-                        //Intent loggedInIntent = new Intent(getApplicationContext(), LoggedInActivity.class);
-                        //startActivity(loggedInIntent);
-                        ((MainActivity) mActivity).onNavigationDrawerItemSelected(position);
+                        //Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        //mainIntent.putExtra("position", position);
+                        //startActivity(mainIntent);
+                        //((MainActivity) mActivity).onNavigationDrawerItemSelected(position);
+                        finish();
                     } else {
                         Log.e(TAG, "Error loggin in: " + exception.getMessage());
                     }

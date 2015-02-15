@@ -51,7 +51,6 @@ public class AirportFragment extends Fragment {
     public TimePickerDialog.OnTimeSetListener timeSetListener;
 
     public String airportCode;
-    protected AuthService mAuthService;
 
     public AirportFragment(){}
     /**
@@ -74,14 +73,6 @@ public class AirportFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        AuthenticationApplication myApp = (AuthenticationApplication) getActivity().getApplication();
-        mAuthService = myApp.getAuthService();
-        if (!mAuthService.isUserAuthenticated()) {
-            Intent customLoginIntent = new Intent(getActivity().getApplicationContext(), CustomLoginActivity.class);
-            customLoginIntent.putExtra("position", 1);
-            startActivity(customLoginIntent);
-        }
 
         View rootView = inflater.inflate(R.layout.fragment_airport, container, false);
 

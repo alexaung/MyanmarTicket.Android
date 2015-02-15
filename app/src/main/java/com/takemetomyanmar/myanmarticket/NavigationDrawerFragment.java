@@ -1,5 +1,6 @@
 package com.takemetomyanmar.myanmarticket;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
@@ -22,6 +23,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.takemetomyanmar.myanmarticket.Authentication.AuthService;
+import com.takemetomyanmar.myanmarticket.Authentication.AuthenticationApplication;
+import com.takemetomyanmar.myanmarticket.Authentication.CustomLoginActivity;
 import com.takemetomyanmar.myanmarticket.adapter.NavDrawerListAdapter;
 import com.takemetomyanmar.myanmarticket.model.NavDrawerItem;
 
@@ -68,6 +72,7 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private AuthService mAuthService;
 
     public NavigationDrawerFragment() {
     }
@@ -109,6 +114,24 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
+        getAdapter();
+
+//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+//                getActionBar().getThemedContext(),
+//                android.R.layout.simple_list_item_activated_1,
+//                android.R.id.text1,
+//                new String[]{
+//                        getString(R.string.title_section1),
+//                        getString(R.string.title_section2),
+//                        getString(R.string.title_section3),
+//                }));
+
+        mDrawerListView.setAdapter(adapter);
+        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        return mDrawerListView;
+    }
+
+    public void getAdapter(){
         // load slide menu items
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 
@@ -126,11 +149,19 @@ public class NavigationDrawerFragment extends Fragment {
         // Photos
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
         // Communities, Will add a counter here
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
-        // Pages
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-        // What's hot, We  will add a counter here
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
+
+        AuthenticationApplication myApp = (AuthenticationApplication) getActivity().getApplication();
+        mAuthService = myApp.getAuthService();
+        if (mAuthService.isUserAuthenticated()) {
+            // Logout
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
+        } else {
+            // Login
+            navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1)));
+        }
+
+
 
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -138,19 +169,6 @@ public class NavigationDrawerFragment extends Fragment {
         // setting the nav drawer list adapter
         adapter = new NavDrawerListAdapter(getActivity().getApplicationContext(), navDrawerItems );
 
-//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-//                getActionBar().getThemedContext(),
-//                android.R.layout.simple_list_item_activated_1,
-//                android.R.id.text1,
-//                new String[]{
-//                        getString(R.string.title_section1),
-//                        getString(R.string.title_section2),
-//                        getString(R.string.title_section3),
-//                }));
-
-        mDrawerListView.setAdapter(adapter);
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
     }
 
     public boolean isDrawerOpen() {
@@ -216,9 +234,9 @@ public class NavigationDrawerFragment extends Fragment {
 
         // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
         // per the navigation drawer design guidelines.
-        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-            mDrawerLayout.openDrawer(mFragmentContainerView);
-        }
+//        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+//            mDrawerLayout.openDrawer(mFragmentContainerView);
+//        }
 
         // Defer code dependent on restoration of previous instance state.
         mDrawerLayout.post(new Runnable() {
@@ -298,6 +316,18 @@ public class NavigationDrawerFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        getAdapter();
+        mDrawerListView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+    }
+
+    public Object getDrawerItem(int position){
+        return adapter.getItem(position);
+    }
     /**
      * Per the navigation drawer design guidelines, updates the action bar to show the global app
      * 'context', rather than just what's in the current screen.
