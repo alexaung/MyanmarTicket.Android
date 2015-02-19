@@ -273,6 +273,8 @@ public class AuthService {
                     StatusLine status = response.getStatus();
                     int statusCode = status.getStatusCode();
                     if (statusCode == 401) {
+                        Toast.makeText(mContext.getApplicationContext(), "Invalid email or password",
+                                Toast.LENGTH_LONG).show();
                         final CountDownLatch latch = new CountDownLatch(1);
                         //Log the user out but don't send them to the login page
                         logout(false);

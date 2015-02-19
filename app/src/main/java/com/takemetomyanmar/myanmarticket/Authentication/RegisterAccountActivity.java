@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class RegisterAccountActivity extends BaseActivity {
 
@@ -93,8 +94,13 @@ public class RegisterAccountActivity extends BaseActivity {
                                     //If that was successful, set and save the user data
                                     mAuthService.setUserAndSaveData(jsonElement);
                                     //Finish this activity and run the logged in activity
-                                    ((MainActivity) mActivity).onNavigationDrawerItemSelected(position);
+                                    Intent mainIntent = new Intent(mActivity, MainActivity.class);
+                                    mainIntent.putExtra("position", position);
+                                    startActivity(mainIntent);
+                                    //((MainActivity) mActivity).onNavigationDrawerItemSelected(position);
                                 } else {
+                                    Toast.makeText(mActivity.getApplicationContext(), response.getContent(),
+                                            Toast.LENGTH_LONG).show();
                                     Log.e(TAG, "There was an error registering the user: " + exception.getMessage());
                                 }
                             }
