@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +49,7 @@ public class AirportVehicleFragment extends Fragment {
     /**
      * Mobile Service URL.
      */
-    private static String SERVICE_KEY = "sCIAeXGjWNEZkskobCEsOuAKEZFsXs62";
+    private static String SERVICE_KEY = "";
     /**
      * Remember the position of the selected item.
      */
@@ -154,6 +152,7 @@ public class AirportVehicleFragment extends Fragment {
 
                 // Perform action on click
                 Transfer transfer = (Transfer) getArguments().getSerializable(ARG_TRANSFER_OBJECT);
+                transfer.setRate(car.getRates());
                 transfer.setCar(car);
                 transfer.setCar_Id(car.getId());
                 // update the main content by replacing fragments

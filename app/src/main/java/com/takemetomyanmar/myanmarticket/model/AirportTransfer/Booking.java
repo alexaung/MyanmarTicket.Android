@@ -1,5 +1,7 @@
 package com.takemetomyanmar.myanmarticket.model.AirportTransfer;
 
+import com.takemetomyanmar.myanmarticket.model.Authentication.Account;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +20,8 @@ public class Booking implements Serializable{
     private String paymentId;
     private String paymentState;
 
-    private Personal bookBy;
+    private String account_Id;
+    private Account bookBy;
     private Personal leadPassenger;
     private ArrayList<Transfer> transfers;
 
@@ -58,11 +61,11 @@ public class Booking implements Serializable{
 
     public void setPaymentState(String paymentState) { this.paymentState = paymentState; }
 
-    public Personal getBookBy(){
+    public Account getBookBy(){
         return this.bookBy;
     }
 
-    public void setBookBy(Personal bookBy){
+    public void setBookBy(Account bookBy){
         this.bookBy = bookBy;
     }
 
@@ -81,5 +84,9 @@ public class Booking implements Serializable{
     public void setTransfers(ArrayList<Transfer> transfers){
         this.transfers = transfers;
     }
+
+    public String getAccount_Id() { return this.account_Id; }
+
+    public void setAccount_Id(String account_Id) { this.account_Id = account_Id; }
 
 }

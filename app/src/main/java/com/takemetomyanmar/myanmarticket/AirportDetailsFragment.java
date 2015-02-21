@@ -39,6 +39,7 @@ import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Booking;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Car;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Personal;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Transfer;
+import com.takemetomyanmar.myanmarticket.model.Authentication.Account;
 
 
 import org.json.JSONException;
@@ -143,10 +144,10 @@ public class AirportDetailsFragment extends Fragment {
 
         // Initialize the progress bar
         //mProgressBar.setVisibility(ProgressBar.GONE);
-        mProgressBar = new ProgressDialog(getActivity());
-        mProgressBar.setTitle("Processing");
-        mProgressBar.setMessage("Please Wait...");
-        mProgressBar.setCancelable(false);
+//        mProgressBar = new ProgressDialog(getActivity());
+//        mProgressBar.setTitle("Processing");
+//        mProgressBar.setMessage("Please Wait...");
+//        mProgressBar.setCancelable(false);
 
 
         txtService = (TextView) rootView.findViewById(R.id.txtService);
@@ -194,7 +195,7 @@ public class AirportDetailsFragment extends Fragment {
         Collection<Transfer> transfers = booking.getTransfers();
         Transfer transfer = (Transfer) transfers.toArray()[0];
         Car car = transfer.getCar();
-        Personal account = booking.getBookBy();
+        Account account = booking.getBookBy();
         Personal leadPassenger = booking.getLeadPassenger();
 
         String[] airportCodes = getResources().getStringArray(R.array.airport_codes);
@@ -224,17 +225,17 @@ public class AirportDetailsFragment extends Fragment {
             txtCarNoOfLuggage.setText(String.valueOf(car.getLuggage()));
         }
 
-        txtContactName.setText(account.getTitle() + " " + account.getFirstName() + " " + account.getLastName());
+        txtContactName.setText(account.getName());
         txtEmail.setText(account.getEmail());
         txtMobilePhone.setText(account.getPhone());
 
         if(leadPassenger != null) {
-            txtLeadName.setText(leadPassenger.getTitle() + " " + leadPassenger.getFirstName() + " " + leadPassenger.getLastName());
+            txtLeadName.setText(leadPassenger.getName());
             txtLeadEmail.setText(leadPassenger.getEmail());
             txtLeadMobilePhone.setText(leadPassenger.getPhone());
         }
         else {
-            txtLeadName.setText(account.getTitle() + " " + account.getFirstName() + " " + account.getLastName());
+            txtLeadName.setText(account.getName());
             txtLeadEmail.setText(account.getEmail());
             txtLeadMobilePhone.setText(account.getPhone());
         }
@@ -278,18 +279,12 @@ public class AirportDetailsFragment extends Fragment {
 
         transfers.add(transfer);
         booking.setTransfers(transfers);
-
-
-//        try{
-//            String confirmMsg = confirm.toJSONObject().toString(4);
-//
-//        } catch (JSONException e) {
-//            Log.e("FuturePaymentExample", "an extremely unlikely failure occurred: ", e);
-//        }
+        booking.setAccount_Id(booking.getBookBy().getId());
+        booking.setBookBy(null);
 
         try {
              mClient = new MobileServiceClient(SERVICE_URL, SERVICE_KEY
-                    , getActivity()).withFilter(new ProgressFilter());
+                    , getActivity()).withFilter(new ProgressFilter(getActivity()));
 
             MobileServiceTable<Booking> mBooking = mClient.getTable(Booking.class);
 
@@ -460,39 +455,39 @@ public class AirportDetailsFragment extends Fragment {
         builder.create().show();
     }
 
-    private class ProgressFilter implements ServiceFilter {
-
-        @Override
-        public void handleRequest(ServiceFilterRequest request, NextServiceFilterCallback nextServiceFilterCallback,
-                                  final ServiceFilterResponseCallback responseCallback) {
-            getActivity().runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    if (mProgressBar != null)
-                        mProgressBar.show();
-                        //mProgressBar.setVisibility(ProgressBar.VISIBLE);
-                }
-            });
-
-            nextServiceFilterCallback.onNext(request, new ServiceFilterResponseCallback() {
-
-                @Override
-                public void onResponse(ServiceFilterResponse response, Exception exception) {
-                    getActivity().runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            if (mProgressBar != null)
-                                mProgressBar.dismiss();
-                                //mProgressBar.setVisibility(ProgressBar.GONE);
-                        }
-                    });
-
-                    if (responseCallback != null)  responseCallback.onResponse(response, exception);
-                }
-            });
-        }
-    }
+//    private class ProgressFilter implements ServiceFilter {
+//
+//        @Override
+//        public void handleRequest(ServiceFilterRequest request, NextServiceFilterCallback nextServiceFilterCallback,
+//                                  final ServiceFilterResponseCallback responseCallback) {
+//            getActivity().runOnUiThread(new Runnable() {
+//
+//                @Override
+//                public void run() {
+//                    if (mProgressBar != null)
+//                        mProgressBar.show();
+//                        //mProgressBar.setVisibility(ProgressBar.VISIBLE);
+//                }
+//            });
+//
+//            nextServiceFilterCallback.onNext(request, new ServiceFilterResponseCallback() {
+//
+//                @Override
+//                public void onResponse(ServiceFilterResponse response, Exception exception) {
+//                    getActivity().runOnUiThread(new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//                            if (mProgressBar != null)
+//                                mProgressBar.dismiss();
+//                                //mProgressBar.setVisibility(ProgressBar.GONE);
+//                        }
+//                    });
+//
+//                    if (responseCallback != null)  responseCallback.onResponse(response, exception);
+//                }
+//            });
+//        }
+//    }
 
 }

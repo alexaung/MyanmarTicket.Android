@@ -17,10 +17,10 @@
             style="@style/inner_layout_style">
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/accountTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/contact_details"
+                android:text="Account Details"
                 style="@style/title_style"/>
 
             <View
@@ -28,160 +28,136 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"/>
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spiTitle"
-                android:hint="Select Title"
-                style="@style/spinner_style"
-                android:layout_weight="1"/>
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/tableLayout2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
 
-            <LinearLayout android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="0dp"
-                android:orientation="horizontal">
-
-                <EditText
+                <TableRow
+                    android:id="@+id/tableRow5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="First Name"
-                    android:ems="10"
-                    android:id="@+id/txtFirstName"
-                    android:layout_marginRight="2dp"
-                    style="@style/edit_text_style"
-                    android:layout_weight="1"/>
+                    android:padding="5dip" >
 
-                <EditText
+                    <TextView
+                        android:id="@+id/lblContactName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name : "
+                        android:layout_weight="0.2"
+                        style="@style/label_style"/>
+                    <TextView
+                        android:id="@+id/txtContactName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        style="@style/text_style" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="Last Name"
-                    android:ems="10"
-                    android:id="@+id/txtLastName"
-                    android:layout_marginLeft="2dp"
-                    style="@style/edit_text_style"
-                    android:layout_weight="1"/>
+                    android:padding="5dip" >
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/lblEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email : "
+                        android:layout_weight="0.2"
+                        style="@style/label_style"/>
+                    <TextView
+                        android:id="@+id/txtEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        style="@style/text_style" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:ems="10"
-                android:id="@+id/txtMobilePhone"
-                android:hint="Mobile Phone"
-                style="@style/edit_text_style" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dip" >
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:ems="10"
-                android:id="@+id/txtEmail"
-                android:hint="Email"
-                style="@style/edit_text_style" />
+                    <TextView
+                        android:id="@+id/lblMobilePhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mobile No. : "
+                        android:layout_weight="0.2"
+                        style="@style/label_style"/>
+                    <TextView
+                        android:id="@+id/txtMobilePhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"
+                        style="@style/text_style" />
 
-            <TextView
-                android:id="@+id/note"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingRight="@dimen/vehicle_item_status_pad_left_right"
-                android:text="@string/contact_note"
-                android:textColor="#040404"
-                android:typeface="sans"
-                android:textSize="10dip"
-                android:textStyle="bold"/>
+                </TableRow>
+            </TableLayout>>
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             style="@style/inner_layout_style">
 
-            <TextView
-                android:id="@+id/pname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lead_passenger_details"
-                style="@style/title_style"/>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/same_as_contact"
-                android:checked="true"
-                android:id="@+id/checkBox" />
-
-            <LinearLayout
-                android:id="@+id/leadPassengerGroup"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical">
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spiPTitle"
-                android:hint="Select Title"
-                style="@style/spinner_style"
-                android:layout_weight="1"/>
-
-            <LinearLayout android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="0dp"
-                android:orientation="horizontal">
-
-                <EditText
+                <TextView
+                    android:id="@+id/pname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="First Name"
-                    android:ems="10"
-                    android:id="@+id/txtPFirstName"
-                    style="@style/edit_text_style"
-                    android:layout_weight="1"/>
+                    android:text="@string/lead_passenger_details"
+                    style="@style/title_style"/>
 
-                <EditText
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/darker_gray"/>
+
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/same_as_contact"
+                    android:checked="true"
+                    android:id="@+id/checkBox" />
+
+                <LinearLayout
+                    android:id="@+id/leadPassengerGroup"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:hint="Last Name"
+                    android:hint="Name"
                     android:ems="10"
-                    android:id="@+id/txtPLastName"
-                    style="@style/edit_text_style"
-                    android:layout_weight="1"/>
+                    android:id="@+id/txtPName"
+                    style="@style/edit_text_style"/>
 
-            </LinearLayout>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:ems="10"
+                    android:id="@+id/txtPMobilePhone"
+                    android:hint="Mobile Phone"
+                    style="@style/edit_text_style" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:ems="10"
-                android:id="@+id/txtPMobilePhone"
-                android:hint="Mobile Phone"
-                style="@style/edit_text_style" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:ems="10"
-                android:id="@+id/txtPEmail"
-                android:hint="Email"
-                style="@style/edit_text_style" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:ems="10"
+                    android:id="@+id/txtPEmail"
+                    android:hint="Email"
+                    style="@style/edit_text_style" />
 
             </LinearLayout>
 

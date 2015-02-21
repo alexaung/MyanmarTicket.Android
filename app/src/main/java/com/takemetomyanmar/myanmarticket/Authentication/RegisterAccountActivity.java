@@ -12,6 +12,9 @@ import com.takemetomyanmar.myanmarticket.AirportFragment;
 import com.takemetomyanmar.myanmarticket.HomeFragment;
 import com.takemetomyanmar.myanmarticket.MainActivity;
 import com.takemetomyanmar.myanmarticket.R;
+
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -35,6 +38,8 @@ public class RegisterAccountActivity extends BaseActivity {
     private EditText mTxtPhone;
     private Activity mActivity;
     private int position;
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,13 @@ public class RegisterAccountActivity extends BaseActivity {
         setTitle("Register");
 
         mActivity = this;
+        // Initialize the progress bar
+        //mProgressBar.setVisibility(ProgressBar.GONE);
+        progressDialog = new ProgressDialog(mActivity);
+        progressDialog.setTitle("Processing");
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
+
         Bundle extras = getIntent().getExtras();
         position = extras.getInt("position");
 
@@ -75,12 +87,24 @@ public class RegisterAccountActivity extends BaseActivity {
                     mTxtEmail.getText().toString().equals("") ||
                     mTxtPhone.getText().toString().equals(""))
             {
+                createAndShowDialog("You must enter all fields to register", "Error");
                 Log.w(TAG, "You must enter all fields to register");
                 return;
             } else if (!mTxtPassword.getText().toString().equals(mTxtConfirm.getText().toString())) {
+                createAndShowDialog("The passwords you've entered don't match", "Error");
                 Log.w(TAG, "The passwords you've entered don't match");
                 return;
             } else {
+
+                mActivity.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (progressDialog != null)
+                            progressDialog.show();
+                    }
+                });
+
                 mAuthService.registerUser(mTxtUsername.getText().toString(),
                         mTxtPassword.getText().toString(),
                         mTxtConfirm.getText().toString(),
@@ -90,6 +114,16 @@ public class RegisterAccountActivity extends BaseActivity {
                             @Override
                             public void onCompleted(JsonElement jsonElement, Exception exception,
                                                     ServiceFilterResponse response) {
+
+                                mActivity.runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        if (progressDialog != null)
+                                            progressDialog.dismiss();
+                                    }
+                                });
+
                                 if (exception == null) {
                                     //If that was successful, set and save the user data
                                     mAuthService.setUserAndSaveData(jsonElement);
@@ -99,7 +133,9 @@ public class RegisterAccountActivity extends BaseActivity {
                                     startActivity(mainIntent);
                                     //((MainActivity) mActivity).onNavigationDrawerItemSelected(position);
                                 } else {
-                                    Toast.makeText(mActivity.getApplicationContext(), response.getContent(),
+
+                                    createAndShowDialog(response.getContent(), "Error");
+                                    Toast.makeText(mActivity, response.getContent(),
                                             Toast.LENGTH_LONG).show();
                                     Log.e(TAG, "There was an error registering the user: " + exception.getMessage());
                                 }
@@ -108,4 +144,35 @@ public class RegisterAccountActivity extends BaseActivity {
             }
         }
     };
+
+    /**
+     * Creates a dialog and shows it
+     *
+     * @param exception
+     *            The exception to show in the dialog
+     * @param title
+     *            The dialog title
+     */
+    private void createAndShowDialog(Exception exception, String title) {
+        Throwable ex = exception;
+        if(exception.getCause() != null){
+            ex = exception.getCause();
+        }
+        createAndShowDialog(ex.getMessage(), title);
+    }
+    /**
+     * Creates a dialog and shows it
+     *
+     * @param message
+     *            The dialog message
+     * @param title
+     *            The dialog title
+     */
+    private void createAndShowDialog(String message, String title) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+
+        builder.setMessage(message);
+        builder.setTitle(title);
+        builder.create().show();
+    }
 }

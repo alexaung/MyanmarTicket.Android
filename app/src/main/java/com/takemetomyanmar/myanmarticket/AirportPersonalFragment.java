@@ -1,7 +1,6 @@
 package com.takemetomyanmar.myanmarticket;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -16,18 +15,26 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
+import com.microsoft.windowsazure.mobileservices.TableQueryCallback;
 import com.takemetomyanmar.myanmarticket.Util.Validation;
 import com.takemetomyanmar.myanmarticket.adapter.KeyValueArrayAdapter;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Booking;
+import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Car;
+import com.takemetomyanmar.myanmarticket.model.Authentication.Account;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Personal;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Transfer;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import static java.util.UUID.randomUUID;
 
@@ -37,16 +44,13 @@ import static java.util.UUID.randomUUID;
 public class AirportPersonalFragment extends Fragment {
 
     public LinearLayout leadPassengerGroup;
-    public Spinner spiTitle;
-    public EditText txtFirstName;
-    public EditText txtLastName;
-    public EditText txtMobilePhone;
-    public EditText txtEmail;
+    public TextView txtName;
+    public TextView txtMobilePhone;
+    public TextView txtEmail;
 
     CheckBox chkLeadPassenger;
     public Spinner spiPTitle;
-    public EditText txtPFirstName;
-    public EditText txtPLastName;
+    public EditText txtPName;
     public EditText txtPMobilePhone;
     public EditText txtPEmail;
 
@@ -67,6 +71,26 @@ public class AirportPersonalFragment extends Fragment {
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
+
+    /**
+     * Mobile Service URL.
+     */
+    private static String SERVICE_URL = "";
+    /**
+     * Mobile Service URL.
+     */
+    private static String SERVICE_KEY = "";
+    /**
+     * Mobile Service Client reference
+     */
+    private MobileServiceClient mClient;
+    /**
+     * Mobile Service Table used to access data
+     */
+    private MobileServiceTable<Account> mAccount;
+
+    private Account mAccountObj;
+
     /**
      * Returns a new instance of this fragment for the given section
      * number.
@@ -116,15 +140,11 @@ public class AirportPersonalFragment extends Fragment {
         final LinearLayout leadPassengerGroup = (LinearLayout) rootView.findViewById(R.id.leadPassengerGroup);
         leadPassengerGroup.setVisibility(View.GONE);
 
-        spiTitle = (Spinner) rootView.findViewById(R.id.spiTitle);
-        txtFirstName = (EditText) rootView.findViewById(R.id.txtFirstName);
-        txtLastName = (EditText) rootView.findViewById(R.id.txtLastName);
-        txtMobilePhone = (EditText) rootView.findViewById(R.id.txtMobilePhone);
-        txtEmail = (EditText) rootView.findViewById(R.id.txtEmail);
+        txtName = (TextView) rootView.findViewById(R.id.txtContactName);
+        txtEmail = (TextView) rootView.findViewById(R.id.txtEmail);
+        txtMobilePhone = (TextView) rootView.findViewById(R.id.txtMobilePhone);
 
-        spiPTitle = (Spinner) rootView.findViewById(R.id.spiPTitle);
-        txtPFirstName = (EditText) rootView.findViewById(R.id.txtPFirstName);
-        txtPLastName = (EditText) rootView.findViewById(R.id.txtPLastName);
+        txtPName = (EditText) rootView.findViewById(R.id.txtPName);
         txtPMobilePhone = (EditText) rootView.findViewById(R.id.txtPMobilePhone);
         txtPEmail = (EditText) rootView.findViewById(R.id.txtPEmail);
 
@@ -133,28 +153,6 @@ public class AirportPersonalFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter.setKeyValue(getResources().getStringArray(R.array.title_codes),
                 getResources().getStringArray(R.array.title_names));
-
-        spiTitle.setAdapter(adapter);
-
-        spiTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(final AdapterView<?> parent, final View view,
-                                       final int position, final long id) {
-
-                KeyValueArrayAdapter adapter = (KeyValueArrayAdapter) parent.getAdapter();
-
-                accountTitleCode = adapter.getEntryValue(position);
-
-                //Ln.d("Entry=" + adapter.getEntry(position));
-                //Ln.d("EntryValue=" + adapter.getEntryValue(position));
-            }
-
-            @Override
-            public void onNothingSelected(final AdapterView<?> parent) {
-            }
-
-        });
 
         spiPTitle.setAdapter(adapter);
 
@@ -210,52 +208,47 @@ public class AirportPersonalFragment extends Fragment {
 
     }
 
+    private void setAccountDetail() {
+        SERVICE_URL = getString(R.string.mobile_service_url);
+        SERVICE_KEY = getString(R.string.mobile_service_key);
+
+        // Create the Mobile Service Client instance, using the provided
+        // Mobile Service URL and key
+        try {
+            mClient = new MobileServiceClient(SERVICE_URL,
+                    SERVICE_KEY,
+                    getActivity()).withFilter(new ProgressFilter(getActivity()));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        // Get the Mobile Service Table instance to use
+        mAccount = mClient.getTable(Account.class);
+
+        // Get the items that weren't marked as completed and add them in the
+        // adapter
+        mAccount.where().field("Email").eq().execute(new TableQueryCallback<Account>() {
+
+            public void onCompleted(List<Account> result, int count, Exception exception, ServiceFilterResponse response) {
+                if (exception == null) {
+
+                    mAccountObj = result.get(0);
+                    txtName.setText(mAccountObj.getName());
+                    txtEmail.setText(mAccountObj.getEmail());
+                    txtMobilePhone.setText(mAccountObj.getPhone());
+
+                } else {
+                    //createAndShowDialog(exception, "Error");
+                }
+            }
+        });
+    }
+
     private void setControlValidator(){
-        // TextWatcher would let us check validation error on the fly
-        txtFirstName.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                Validation.hasText(txtFirstName);
-            }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
-        });
 
-        txtLastName.addTextChangedListener(new TextWatcher() {
+        txtPName.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                Validation.hasText(txtLastName);
-            }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
-        });
-
-        txtMobilePhone.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                Validation.hasText(txtMobilePhone);
-            }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
-        });
-
-        txtEmail.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                Validation.isEmailAddress(txtPEmail, true);
-
-            }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
-        });
-
-        txtPFirstName.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                Validation.hasText(txtPFirstName);
-            }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
-        });
-
-        txtPLastName.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
-                Validation.hasText(txtPLastName);
+                Validation.hasText(txtPName);
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after){}
             public void onTextChanged(CharSequence s, int start, int before, int count){}
@@ -291,14 +284,8 @@ public class AirportPersonalFragment extends Fragment {
     private boolean checkValidation() {
         boolean ret = true;
 
-        if (!Validation.hasText(txtFirstName)) ret = false;
-        if (!Validation.hasText(txtLastName)) ret = false;
-        if (!Validation.hasText(txtMobilePhone)) ret = false;
-        if (!Validation.isEmailAddress(txtEmail, true)) ret = false;
-
         if(!chkLeadPassenger.isChecked()) {
-            if (!Validation.hasText(txtPFirstName)) ret = false;
-            if (!Validation.hasText(txtPLastName)) ret = false;
+            if (!Validation.hasText(txtPName)) ret = false;
             if (!Validation.hasText(txtPMobilePhone)) ret = false;
             if (!Validation.isEmailAddress(txtPEmail, true)) ret = false;
         }
@@ -307,20 +294,9 @@ public class AirportPersonalFragment extends Fragment {
         return ret;
     }
 
-    private Personal getAccountDetail(){
-        Personal accountDetail = new Personal(randomUUID().toString(), accountTitleCode,
-                txtFirstName.getText().toString(),
-                txtLastName.getText().toString(),
-                txtEmail.getText().toString(),
-                txtMobilePhone.getText().toString());
-
-        return accountDetail;
-    }
-
     private Personal getLeadPassengerDetail(){
-        Personal leadPassengerDetail = new Personal(randomUUID().toString(), leadTitleCode,
-                txtPFirstName.getText().toString(),
-                txtPLastName.getText().toString(),
+        Personal leadPassengerDetail = new Personal(randomUUID().toString(),
+                txtPName.getText().toString(),
                 txtPEmail.getText().toString(),
                 txtPMobilePhone.getText().toString());
 
@@ -330,10 +306,9 @@ public class AirportPersonalFragment extends Fragment {
     private Booking getBooking(){
         Transfer transfer = (Transfer) getArguments().getSerializable(ARG_TRANSFER_OBJECT);
 
-        Personal account = getAccountDetail();
         Personal leadPassenger;
         if(chkLeadPassenger.isChecked())
-            leadPassenger = account;
+            leadPassenger = new Personal(randomUUID().toString(), mAccountObj.getName(), mAccountObj.getEmail(), mAccountObj.getPhone());
         else
             leadPassenger = getLeadPassengerDetail();
 
@@ -343,7 +318,7 @@ public class AirportPersonalFragment extends Fragment {
 
         transfers.add(transfer);
         booking.setTransfers(transfers);
-        booking.setBookBy(account);
+        booking.setBookBy(mAccountObj);
         booking.setLeadPassenger(leadPassenger);
 
         return booking;

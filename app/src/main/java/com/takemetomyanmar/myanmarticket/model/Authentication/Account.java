@@ -1,20 +1,17 @@
-package com.takemetomyanmar.myanmarticket.model.AirportTransfer;
-
-import java.io.Serializable;
+package com.takemetomyanmar.myanmarticket.model.Authentication;
 
 /**
- * Created by aungmo on 8/2/15.
+ * Created by aungmo on 20/2/15.
  */
-public class Personal implements Serializable{
-
+public class Account {
     private String id;
     private String name;
     private String email;
     private String phone;
 
-    public Personal(){}
+    public Account(){}
 
-    public Personal(String id, String name, String email, String phone){
+    public Account(String id, String name, String email, String phone){
         this.id = id;
         this.name = name;
         this.email = email;

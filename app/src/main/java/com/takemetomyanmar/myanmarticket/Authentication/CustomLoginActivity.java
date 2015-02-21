@@ -13,6 +13,7 @@ import com.takemetomyanmar.myanmarticket.HomeFragment;
 import com.takemetomyanmar.myanmarticket.MainActivity;
 import com.takemetomyanmar.myanmarticket.R;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.app.Activity;
@@ -117,25 +118,27 @@ public class CustomLoginActivity extends BaseActivity {
 
                 @Override
                 public void onCompleted(JsonElement jsonElement, Exception exception, ServiceFilterResponse response) {
+                    mActivity.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (progressDialog != null)
+                                progressDialog.dismiss();
+                        }
+                    });
                     if (exception == null) {
                         //If they've registered successfully, we'll save and set the userdata and then
                         //show the logged in activity
                         mAuthService.setUserAndSaveData(jsonElement);
 
-                        mActivity.runOnUiThread(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                if (progressDialog != null)
-                                    progressDialog.dismiss();
-                            }
-                        });
                         //Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
                         //mainIntent.putExtra("position", position);
                         //startActivity(mainIntent);
                         //((MainActivity) mActivity).onNavigationDrawerItemSelected(position);
                         finish();
                     } else {
+                        createAndShowDialog(response.getContent(), "Error");
                         Log.e(TAG, "Error loggin in: " + exception.getMessage());
                     }
                 }
@@ -153,4 +156,35 @@ public class CustomLoginActivity extends BaseActivity {
             startActivity(registerIntent);
         }
     };
+
+    /**
+     * Creates a dialog and shows it
+     *
+     * @param exception
+     *            The exception to show in the dialog
+     * @param title
+     *            The dialog title
+     */
+    private void createAndShowDialog(Exception exception, String title) {
+        Throwable ex = exception;
+        if(exception.getCause() != null){
+            ex = exception.getCause();
+        }
+        createAndShowDialog(ex.getMessage(), title);
+    }
+    /**
+     * Creates a dialog and shows it
+     *
+     * @param message
+     *            The dialog message
+     * @param title
+     *            The dialog title
+     */
+    private void createAndShowDialog(String message, String title) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+
+        builder.setMessage(message);
+        builder.setTitle(title);
+        builder.create().show();
+    }
 }
