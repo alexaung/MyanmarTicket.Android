@@ -140,7 +140,7 @@ public class AuthService {
 
         //Check for custom provider
         String provider = userId.substring(0, userId.indexOf(":"));
-        if (provider.equals("custom")) {
+        if (provider.equals("Custom")) {
             mProvider = null;
             mIsCustomAuthProvider = true;
         } else if (provider.equals("Facebook"))
@@ -166,8 +166,8 @@ public class AuthService {
 
             JsonObject userObj = jsonObject.getAsJsonObject("user");
 
-            String userId = userObj.get("userId").toString();
-            String token = jsonObject.get("authenticationToken").toString();
+            String userId = userObj.get("userId").toString().replaceAll("\"", "");
+            String token = jsonObject.get("authenticationToken").toString().replaceAll("\"", "");
             setUserData(userId, token);
             saveUserData();
         } catch (JsonParseException e) {
@@ -273,8 +273,8 @@ public class AuthService {
                     StatusLine status = response.getStatus();
                     int statusCode = status.getStatusCode();
                     if (statusCode == 401) {
-                        Toast.makeText(mContext.getApplicationContext(), "Invalid email or password",
-                                Toast.LENGTH_LONG).show();
+//                        Toast.makeText(mContext.getApplicationContext(), "Invalid email or password",
+//                                Toast.LENGTH_LONG).show();
                         final CountDownLatch latch = new CountDownLatch(1);
                         //Log the user out but don't send them to the login page
                         logout(false);
@@ -333,7 +333,7 @@ public class AuthService {
                             nextServiceFilterCallback.onNext(request, responseCallback);
                         } else {
                             //Log them out and proceed with the response
-                            logout(true);
+                            //logout(true);
                             responseCallback.onResponse(response, exception);
                         }
                     } else {//

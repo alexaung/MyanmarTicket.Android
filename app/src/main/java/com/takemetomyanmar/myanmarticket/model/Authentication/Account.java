@@ -5,7 +5,7 @@ package com.takemetomyanmar.myanmarticket.model.Authentication;
  */
 public class Account {
     private String id;
-    private String name;
+    private String username;
     private String email;
     private String phone;
 
@@ -13,7 +13,7 @@ public class Account {
 
     public Account(String id, String name, String email, String phone){
         this.id = id;
-        this.name = name;
+        this.username = name;
         this.email = email;
         this.phone = phone;
     }
@@ -23,11 +23,11 @@ public class Account {
     }
 
     public String getName(){
-        return this.name;
+        return this.username;
     }
 
     public void setName(String name){
-        this.name = name;
+        this.username = name;
     }
 
     public String getEmail(){

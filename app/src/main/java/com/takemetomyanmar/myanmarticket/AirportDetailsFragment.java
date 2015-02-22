@@ -35,6 +35,7 @@ import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
+import com.takemetomyanmar.myanmarticket.Authentication.RegisterAccountActivity;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Booking;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Car;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Personal;
@@ -70,7 +71,7 @@ public class AirportDetailsFragment extends Fragment {
             .acceptCreditCards(true)
             .languageOrLocale("EN")
             .rememberUser(true)
-            .merchantName("Company name");
+            .merchantName("TakeMeToMyanmar");
 
 
 
@@ -97,6 +98,8 @@ public class AirportDetailsFragment extends Fragment {
     private TextView txtLeadMobilePhone;
 
     private Booking booking;
+
+    private Car car;
 
     private ProgressDialog mProgressBar;
 
@@ -194,7 +197,7 @@ public class AirportDetailsFragment extends Fragment {
 
         Collection<Transfer> transfers = booking.getTransfers();
         Transfer transfer = (Transfer) transfers.toArray()[0];
-        Car car = transfer.getCar();
+        car = transfer.getCar();
         Account account = booking.getBookBy();
         Personal leadPassenger = booking.getLeadPassenger();
 
@@ -296,7 +299,7 @@ public class AirportDetailsFragment extends Fragment {
                         try{
                             booking = b;
                             Transfer transfer = booking.getTransfers().get(0);
-                            Car car = transfer.getCar();
+                            //Car car = transfer.getCar();
                             String description = "Transfer - Arrival ( "+ car.getName()+" - up to " + car.getSeatingCapacity() + " pax + " + car.getLuggage() + " luggage )";
                             PayPalPayment thingToBuy = new PayPalPayment(new BigDecimal(transfer.getRate()),
                                     "USD", description, PayPalPayment.PAYMENT_INTENT_SALE);
@@ -403,6 +406,9 @@ public class AirportDetailsFragment extends Fragment {
 
                         Toast.makeText(getActivity(), "Payment Verified.", Toast.LENGTH_LONG).show();
 
+                        Intent thankYouIntent = new Intent(getActivity(), ThankYouActivity.class);
+                        thankYouIntent.putExtra("amount", car.getRates());
+                        startActivity(thankYouIntent);
 
                     }catch (NumberFormatException ex){
                         Toast.makeText(getActivity(), "Payment Verification Fail.", Toast.LENGTH_LONG).show();

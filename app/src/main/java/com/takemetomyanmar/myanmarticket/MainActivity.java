@@ -39,6 +39,10 @@ public class MainActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+        AuthenticationApplication myApp = (AuthenticationApplication) getApplication();
+        myApp.setCurrentActivity(this);
+        mAuthService = myApp.getAuthService();
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -47,10 +51,6 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-
-        AuthenticationApplication myApp = (AuthenticationApplication) getApplication();
-        myApp.setCurrentActivity(this);
-        mAuthService = myApp.getAuthService();
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {

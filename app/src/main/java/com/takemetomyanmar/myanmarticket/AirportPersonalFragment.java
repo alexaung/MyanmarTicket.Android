@@ -22,6 +22,8 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.TableQueryCallback;
+import com.takemetomyanmar.myanmarticket.Authentication.AuthService;
+import com.takemetomyanmar.myanmarticket.Authentication.AuthenticationApplication;
 import com.takemetomyanmar.myanmarticket.Util.Validation;
 import com.takemetomyanmar.myanmarticket.adapter.KeyValueArrayAdapter;
 import com.takemetomyanmar.myanmarticket.model.AirportTransfer.Booking;
@@ -91,6 +93,8 @@ public class AirportPersonalFragment extends Fragment {
 
     private Account mAccountObj;
 
+    protected AuthService mAuthService;
+
     /**
      * Returns a new instance of this fragment for the given section
      * number.
@@ -148,33 +152,33 @@ public class AirportPersonalFragment extends Fragment {
         txtPMobilePhone = (EditText) rootView.findViewById(R.id.txtPMobilePhone);
         txtPEmail = (EditText) rootView.findViewById(R.id.txtPEmail);
 
-
-        KeyValueArrayAdapter adapter = new KeyValueArrayAdapter(getActivity(),android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter.setKeyValue(getResources().getStringArray(R.array.title_codes),
-                getResources().getStringArray(R.array.title_names));
-
-        spiPTitle.setAdapter(adapter);
-
-        spiPTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(final AdapterView<?> parent, final View view,
-                                       final int position, final long id) {
-
-                KeyValueArrayAdapter adapter = (KeyValueArrayAdapter) parent.getAdapter();
-
-                leadTitleCode = adapter.getEntryValue(position);
-
-                //Ln.d("Entry=" + adapter.getEntry(position));
-                //Ln.d("EntryValue=" + adapter.getEntryValue(position));
-            }
-
-            @Override
-            public void onNothingSelected(final AdapterView<?> parent) {
-            }
-
-        });
+        setAccountDetail();
+//        KeyValueArrayAdapter adapter = new KeyValueArrayAdapter(getActivity(),android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        adapter.setKeyValue(getResources().getStringArray(R.array.title_codes),
+//                getResources().getStringArray(R.array.title_names));
+//
+//        spiPTitle.setAdapter(adapter);
+//
+//        spiPTitle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//
+//            @Override
+//            public void onItemSelected(final AdapterView<?> parent, final View view,
+//                                       final int position, final long id) {
+//
+//                KeyValueArrayAdapter adapter = (KeyValueArrayAdapter) parent.getAdapter();
+//
+//                leadTitleCode = adapter.getEntryValue(position);
+//
+//                //Ln.d("Entry=" + adapter.getEntry(position));
+//                //Ln.d("EntryValue=" + adapter.getEntryValue(position));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(final AdapterView<?> parent) {
+//            }
+//
+//        });
 
         chkLeadPassenger = (CheckBox) rootView.findViewById (R.id.checkBox);
 
@@ -225,9 +229,15 @@ public class AirportPersonalFragment extends Fragment {
         // Get the Mobile Service Table instance to use
         mAccount = mClient.getTable(Account.class);
 
+        AuthenticationApplication myApp = (AuthenticationApplication) getActivity().getApplicationContext();
+
+        mAuthService = myApp.getAuthService();
+
+        String userId = mAuthService.getUserId();
+        userId = userId.substring(userId.indexOf(":") + 1);
         // Get the items that weren't marked as completed and add them in the
         // adapter
-        mAccount.where().field("Email").eq().execute(new TableQueryCallback<Account>() {
+        mAccount.where().field("Email").eq(userId).execute(new TableQueryCallback<Account>() {
 
             public void onCompleted(List<Account> result, int count, Exception exception, ServiceFilterResponse response) {
                 if (exception == null) {
@@ -304,15 +314,19 @@ public class AirportPersonalFragment extends Fragment {
     }
 
     private Booking getBooking(){
+
+        Booking booking = new Booking();
+
         Transfer transfer = (Transfer) getArguments().getSerializable(ARG_TRANSFER_OBJECT);
 
         Personal leadPassenger;
-        if(chkLeadPassenger.isChecked())
+        if(chkLeadPassenger.isChecked()) {
+            booking.setIsSameAsAccount(true);
             leadPassenger = new Personal(randomUUID().toString(), mAccountObj.getName(), mAccountObj.getEmail(), mAccountObj.getPhone());
+        }
         else
             leadPassenger = getLeadPassengerDetail();
 
-        Booking booking = new Booking();
         booking.setBookingDate(new Date());
         ArrayList<Transfer> transfers = new ArrayList<Transfer>();
 

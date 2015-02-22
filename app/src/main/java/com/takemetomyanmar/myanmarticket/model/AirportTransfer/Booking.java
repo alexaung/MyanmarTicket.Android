@@ -19,11 +19,12 @@ public class Booking implements Serializable{
     private String bookingDate;
     private String paymentId;
     private String paymentState;
-
+    private boolean isSameAsAccount;
     private String account_Id;
     private Account bookBy;
     private Personal leadPassenger;
     private ArrayList<Transfer> transfers;
+
 
     public Booking() {};
 
@@ -60,6 +61,10 @@ public class Booking implements Serializable{
     public String getPaymentState() { return this.paymentState; }
 
     public void setPaymentState(String paymentState) { this.paymentState = paymentState; }
+
+    public boolean getIsSameAsAccount() { return this.isSameAsAccount; }
+
+    public void setIsSameAsAccount(boolean isSameAsAccount) { this.isSameAsAccount = isSameAsAccount; }
 
     public Account getBookBy(){
         return this.bookBy;

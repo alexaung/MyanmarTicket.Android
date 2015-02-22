@@ -11,7 +11,7 @@ public class Car  implements Serializable {
     private String description;
     private int seatingCapacity;
     private int luggage;
-    private float rates;
+    private double rates;
     private String image;
 
     public Car(){}
@@ -62,11 +62,11 @@ public class Car  implements Serializable {
         this.luggage = luggage;
     }
 
-    public float getRates(){
+    public double getRates(){
         return this.luggage;
     }
 
-    public void setRates(float rates){
+    public void setRates(double rates){
         this.rates = rates;
     }
 

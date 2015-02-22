@@ -147,7 +147,6 @@ public class CustomLoginActivity extends BaseActivity {
 
         }
     };
-
     View.OnClickListener registerClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -156,6 +155,7 @@ public class CustomLoginActivity extends BaseActivity {
             startActivity(registerIntent);
         }
     };
+
 
     /**
      * Creates a dialog and shows it

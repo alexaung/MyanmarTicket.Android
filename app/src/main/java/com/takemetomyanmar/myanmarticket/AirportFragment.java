@@ -76,14 +76,14 @@ public class AirportFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_airport, container, false);
 
-        registerViews(rootView);
+        registerViews(rootView, savedInstanceState);
 
         setControlValidator();
 
         return rootView;
     }
 
-    private void registerViews(View rootView) {
+    private void registerViews(View rootView, Bundle savedInstanceState) {
 
         airport = (Spinner) rootView.findViewById(R.id.airport);
         destination = (EditText) rootView.findViewById(R.id.destination);
@@ -94,17 +94,18 @@ public class AirportFragment extends Fragment {
         no_of_passengers = (EditText) rootView.findViewById(R.id.no_of_passengers);
         no_of_luggage = (EditText) rootView.findViewById(R.id.no_of_luggage);
 
-//        // initialize all your visual fields
-//        if (savedInstanceState != null) {
-//            airport.setSelection(savedInstanceState.getInt("airport", 0));
-//            destination.setText(savedInstanceState.getString("destination"));
-//            pickup_date.setText(savedInstanceState.getString("pickup_date"));
-//            pickup_time.setText(savedInstanceState.getString("pickup_time"));
-//            no_of_passengers.setText(savedInstanceState.getString("no_of_passengers"));
-//            no_of_luggage.setText(savedInstanceState.getString("no_of_luggage"));
-//
-//            // do this for each of your text views
-//        }
+        // initialize all your visual fields
+        if (savedInstanceState != null) {
+            airport.setSelection(savedInstanceState.getInt("airport", 0));
+            destination.setText(savedInstanceState.getString("destination"));
+            txtFlightNo.setText(savedInstanceState.getString("flightNo"));
+            pickup_date.setText(savedInstanceState.getString("pickup_date"));
+            pickup_time.setText(savedInstanceState.getString("pickup_time"));
+            no_of_passengers.setText(savedInstanceState.getString("no_of_passengers"));
+            no_of_luggage.setText(savedInstanceState.getString("no_of_luggage"));
+
+            // do this for each of your text views
+        }
 
         KeyValueArrayAdapter adapter = new KeyValueArrayAdapter(getActivity(),android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -331,14 +332,15 @@ public class AirportFragment extends Fragment {
                 getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle savedInstanceState) {
-//        super.onSaveInstanceState(savedInstanceState);
-//        savedInstanceState.putInt("airport", airport.getSelectedItemPosition());
-//        savedInstanceState.putString("destination", destination.getText().toString());
-//        savedInstanceState.putString("pickup_date", pickup_date.getText().toString());
-//        savedInstanceState.putString("pickup_time", pickup_time.getText().toString());
-//        savedInstanceState.putString("no_of_passengers", no_of_passengers.getText().toString());
-//        savedInstanceState.putString("no_of_luggage", no_of_luggage.getText().toString());
-//    }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt("airport", airport.getSelectedItemPosition());
+        savedInstanceState.putString("destination", destination.getText().toString());
+        savedInstanceState.putString("flightNo", txtFlightNo.getText().toString());
+        savedInstanceState.putString("pickup_date", pickup_date.getText().toString());
+        savedInstanceState.putString("pickup_time", pickup_time.getText().toString());
+        savedInstanceState.putString("no_of_passengers", no_of_passengers.getText().toString());
+        savedInstanceState.putString("no_of_luggage", no_of_luggage.getText().toString());
+    }
 }
